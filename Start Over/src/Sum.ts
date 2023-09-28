@@ -16,16 +16,6 @@ export function Greeting(name:string) :string {
 export function GetFirst(arr:number[]) :number {
 	return arr[0];
 }
-
-// export interface Card {
-// 	suit: string
-// 	face: number
-// }
-
-// let card1 = {suit: "hearts", face : 2};
-// card1.face
-// card1.suit
-
 export function GetFace(cardString:string) :number {
 	let firstLetter = cardString[0];
 	let face = 0;
@@ -68,6 +58,16 @@ export function GetSuit(cardString:string) :string {
 	return suit;
 }
 
-// export function GetCard(cardString:string) : any {
-// 	return undefined;
-// }
+export interface Card {
+	suit: string
+	face: number
+}
+
+let card1 = {suit: "hearts", face : 2};
+card1.face
+card1.suit
+
+
+export function GetCard(cardString:string) : any {
+	return card1;
+}

@@ -1,4 +1,4 @@
-import {Sum, Div, SumOfSquares, Greeting, GetFirst, GetFace, GetSuit} from "../Sum.ts";
+import {GetCard, Sum, Div, SumOfSquares, Greeting, GetFirst, GetFace, GetSuit} from "../Sum.ts";
 test('Sum(1,2) = 3', () => {
   let result = Sum(1, 2);
   expect(result).toBe(3)
@@ -43,8 +43,8 @@ test('get the first element from an array', () => {
     expect(GetSuit("2F")).toBe('not a valid suit');
   })
   
-  // test('get the card from a poker card string', () => {
-  //   let card = GetCard("2H")
-  //   expect(card.suit).toBe('hearts');
-  //   expect(card.face).toBe(2);
-  // })
+  test('get the card from a poker card string', () => {
+    let card = GetCard("2H")
+    expect(card.suit).toBe('hearts');
+    expect(card.face).toBe(2);
+  })
