@@ -37,6 +37,10 @@ test('get the first element from an array', () => {
   
   test('get the suit from a poker card', () => {
     expect(GetSuit("2H")).toBe('hearts');
+    expect(GetSuit("2S")).toBe('spades');
+    expect(GetSuit("2C")).toBe('clubs');
+    expect(GetSuit("2D")).toBe('dismonds');
+    expect(GetSuit("2F")).toBe('not a valid suit');
   })
   
   // test('get the card from a poker card string', () => {

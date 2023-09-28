@@ -51,7 +51,21 @@ export function GetFace(cardString:string) :number {
 }
 
 export function GetSuit(cardString:string) :string {
-	return cardString;
+	let secondLetter = cardString[1];
+	let suit = 'not a valid suit';
+	if(secondLetter === "H") {
+		suit = 'hearts'
+	}
+	if(secondLetter === 'S') {
+		suit = 'spades'
+	}
+	if(secondLetter === 'C') {
+		suit = 'clubs'
+	}
+	if(secondLetter === 'D') {
+		suit = 'dismonds'
+	}
+	return suit;
 }
 
 // export function GetCard(cardString:string) : any {
