@@ -26,24 +26,25 @@ export function GetFirst(arr:number[]) :number {
 // card1.face
 // card1.suit
 
-export function GetFace(cardString:string) :any {
+export function GetFace(cardString:string) :number {
 	let firstLetter = cardString[0];
 	let face = 0;
 	if(firstLetter === 'A') {
 		face = 14;
 	}
-	if(firstLetter === 'K') {
+	else if(firstLetter === 'K') {
 		face = 13;
 	}
-	if(firstLetter === 'Q') {
+	else if(firstLetter === 'Q') {
 		face = 12;
 	}
-	if(firstLetter === 'J') {
+	else if(firstLetter === 'J') {
 		face = 11;
 	}
-	if(firstLetter === 'T') {
+	else if(firstLetter === 'T') {
 		face = 10;
-	} else {
+	} 
+	else {
 		face = parseInt(firstLetter)
 	}
 	return face;

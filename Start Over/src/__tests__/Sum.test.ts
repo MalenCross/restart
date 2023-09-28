@@ -29,7 +29,7 @@ test('get the first element from an array', () => {
     expect(GetFace("3H")).toBe(3);
     expect(GetFace("5H")).toBe(5);
     expect(GetFace("TH")).toBe(10);
-    expect(GetFace("JS")).toBe(11)
+    expect(GetFace("JS")).toBe(11);
     expect(GetFace("QH")).toBe(12);
     expect(GetFace("KH")).toBe(13);
     expect(GetFace("AS")).toBe(14)
