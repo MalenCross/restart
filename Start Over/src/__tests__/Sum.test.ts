@@ -1,4 +1,4 @@
-import {GetCard, Sum, Div, SumOfSquares, Greeting, GetFirst, GetFace, GetSuit} from "../Sum.ts";
+import { GetCard, Sum, Div, SumOfSquares, Greeting, GetFirst, GetFace, GetSuit, Card} from "../Sum.ts";
 test('Sum(1,2) = 3', () => {
   let result = Sum(1, 2);
   expect(result).toBe(3)
@@ -39,7 +39,7 @@ test('get the first element from an array', () => {
     expect(GetSuit("2H")).toBe('hearts');
     expect(GetSuit("2S")).toBe('spades');
     expect(GetSuit("2C")).toBe('clubs');
-    expect(GetSuit("2D")).toBe('dismonds');
+    expect(GetSuit("2D")).toBe('diamonds');
     expect(GetSuit("2F")).toBe('not a valid suit');
   })
   
@@ -48,3 +48,34 @@ test('get the first element from an array', () => {
     expect(card.suit).toBe('hearts');
     expect(card.face).toBe(2);
   })
+
+  // FUNCTION_NAME()   <= call a function
+  // FUNCTION_NAME(2, 3)   <= call a function and pass the function numbers 2 and 3
+  // FUNCTION_NAME("5S")   <= call a function and pass the function "5S"
+  test('get a different card from a poker card string', () => {
+    let c : Card = GetCard("5S")
+    expect(c.suit).toBe('spades');
+    expect(c.face).toBe(5);
+    let d : Card = GetCard('TH')
+    expect (d.suit).toBe('hearts')
+    expect (d.face).toBe(10)
+    let e : Card = GetCard('QD')
+    expect (e.suit).toBe('diamonds')
+    expect (e.face).toBe(12)
+  })
+
+  // test('get a different card from a poker card string', () => {
+  //   let hand = GetHand(["5S", "2H", "QD", 'AC', 'KS'])
+    // expect(hand[0].suit).toBe('spades');
+    // expect(hand[0].face).toBe(5);
+    // expect(hand[1].suit).toBe('hearts');
+    // expect(hand[1].face).toBe(2);
+    // expect(hand[2].suit).toBe('diamonds');
+    // expect(hand[2].face).toBe(12);
+
+  // })
+
+  // test('get a different card from a poker card string', () => {
+  //   let hand = GetHandFromString("5S 2H QD AC KS")
+
+  // })

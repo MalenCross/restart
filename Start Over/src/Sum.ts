@@ -13,9 +13,11 @@ export function SumOfSquares(x:number, y:number) :number {
 export function Greeting(name:string) :string {
 	return "Hello " + name;
 }
+
 export function GetFirst(arr:number[]) :number {
 	return arr[0];
 }
+
 export function GetFace(cardString:string) :number {
 	let firstLetter = cardString[0];
 	let face = 0;
@@ -53,7 +55,7 @@ export function GetSuit(cardString:string) :string {
 		suit = 'clubs'
 	}
 	if(secondLetter === 'D') {
-		suit = 'dismonds'
+		suit = 'diamonds'
 	}
 	return suit;
 }
@@ -63,11 +65,62 @@ export interface Card {
 	face: number
 }
 
-let card1 = {suit: "hearts", face : 2};
-card1.face
-card1.suit
+// let card1 = {suit: "hearts", face : 2};
+// card1.face
+// card1.suit
 
 
-export function GetCard(cardString:string) : any {
-	return card1;
+// variable: x
+// type: number
+// value: 5
+// let x: number = 5;
+// let card : Card = {suit: "diamonds", face: 4};
+// let horse : string = "ed";
+
+
+// variables: user defined "let bound"
+//     parameters
+//     keys
+export function GetCard(rawInput:string) : Card {
+	let parsedSuit: string = GetSuit(rawInput);
+	let parsedFace: number = GetFace(rawInput);
+
+	let card: Card = {
+		suit : parsedSuit , 
+		face : parsedFace 
+	};
+	return card;
 }
+// for .. in
+// make new array    let hand = [];
+// push into array    hand.push(card)
+/*
+
+	     testFunction
+		    |
+         GetSuit
+
+	     testFunction
+		    |
+         GetFace
+
+	     testFunction
+		     |
+	      GetCard
+		  /     \
+     GetSuit   GetFace
+
+	     testFunction
+		     |
+	      GetHand
+		     |
+	      GetCard
+		  /     \
+     GetSuit   GetFace
+
+
+*/
+
+
+// export function GetHand(cardString:[]) : Card {
+// }
