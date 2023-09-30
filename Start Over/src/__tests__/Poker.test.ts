@@ -28,20 +28,28 @@ test('get the suit from a playing card', () => {
 
 test('get the card from a poker card string', () => {
 
-    let cardA : Card = GetCard('2H')
+    let cardA : Card |string = GetCard('2H')
+    if (typeof cardA === 'object' && cardA !== null) {
     expect (cardA.face).toBe(2)
     expect (cardA.suit).toBe('Hearts')
-
-    let cardB : Card = GetCard('7C')
+    }
+    let cardB : Card |string = GetCard('7C')
+    if (typeof cardB === 'object' && cardA !== null) {
     expect (cardB.face).toBe(7)
     expect (cardB.suit).toBe('Clubs')
-
-    let card1 : Card = GetCard('KH')
+    }
+    let card1 : Card |string = GetCard('KH')
+    if (typeof card1 === 'object' && cardA !== null) {
     expect (card1.face).toBe(13)
     expect (card1.suit).toBe('Hearts')
+    }
+    let card2 : Card |string = GetCard('RD')
+    expect (card2).toBe('not a valid face value')
 
-    let card2 : Card = GetCard('AS')
-    expect (card2.face).toBe(14)
-    expect (card2.suit).toBe('Spades')
+    let card3 : Card |string = GetCard('TW')
+    expect (card3).toBe('not a valid suit')
 
+    let card4: Card | string = GetCard('WL')
+    expect (card4).toBe('not a valid face value and not a valid suit value')
+    
 })

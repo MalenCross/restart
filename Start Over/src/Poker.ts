@@ -71,7 +71,7 @@ export interface Card {
 
 // Cet the card as an object from a poker card string
 
-export function GetCard(getCardInput : string): Card {
+export function GetCard(getCardInput : string): Card | string {
 
     let parsedFaceOutput : number | string = GetFace(getCardInput)
     let parsedSuit : string                = GetSuit(getCardInput)
@@ -80,5 +80,15 @@ export function GetCard(getCardInput : string): Card {
         face : parsedFaceOutput,
         suit : parsedSuit
     }
+    if(parsedFaceOutput === 'not a valid face value' && parsedSuit === 'not a valid suit'){
+    return 'not a valid face value and not a valid suit value'
+}
+    if(parsedFaceOutput === 'not a valid face value' ) {
+        return 'not a valid face value'
+     }
+    if(parsedSuit === 'not a valid suit'){
+        return 'not a valid suit'
+    }
+
     return Card1
 }

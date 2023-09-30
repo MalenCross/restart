@@ -29,10 +29,8 @@ describe('calculateHandValue', () => {
   });
 });
 
-test('see what numaric value looks like', () => {
-  expect(totalvalue) 
 
-})
+
 
 // Test suite for determineWinner function
 describe('determineWinner', () => {
