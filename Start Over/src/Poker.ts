@@ -80,6 +80,5 @@ export function GetCard(getCardInput : string): Card {
         face : parsedFaceOutput,
         suit : parsedSuit
     }
-
     return Card1
 }
