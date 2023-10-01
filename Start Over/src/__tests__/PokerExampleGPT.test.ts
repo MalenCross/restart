@@ -39,6 +39,8 @@ describe('determineWinner', () => {
     const hand1 = '2H 3D 4S 5C 7H';
     const hand2 = '2S 3H 4D 5C 6S';
 
+    // console.log("Hello, world!")
+
     // Expected output: Hand 1 wins because its total value (20) is greater than Hand 2's (20)
     const expected = 'Hand 1 wins';
 

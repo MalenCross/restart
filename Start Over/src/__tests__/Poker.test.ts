@@ -1,4 +1,4 @@
-import {Card, GetFace, GetSuit, GetCard} from "../Poker.ts";;
+import {Card, GetFace, GetSuit, GetCard, GetHand} from "../Poker.ts";;
 
 
 test('Get face value a playing card', () => {
@@ -52,4 +52,26 @@ test('get the card from a poker card string', () => {
     let card4: Card | string = GetCard('WL')
     expect (card4).toBe('not a valid face value and not a valid suit value')
     
+})
+test('get the card from a poker card string', () => {
+expect(GetHand('2H TS 9C AS 7D')).toEqual([{
+    face: 2,
+    suit : 'Hearts'
+},
+{
+    face: 10,
+    suit : 'Spades'
+},
+{
+    face: 9,
+    suit : 'Clubs'
+},
+{
+    face: 14,
+    suit : 'Spades'
+},
+{
+    face: 7,
+    suit : 'Diamonds'
+}])
 })

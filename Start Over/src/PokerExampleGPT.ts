@@ -7,7 +7,6 @@ const cardValues: { [key: string]: number } = {
   export function calculateHandValue(handString: string): number {
     // Split the hand string into individual card representations
     const cardArray = handString.split(' ');
-  
     // Calculate the total value of the hand based on card values
     let totalValue = 0;
     for (const card of cardArray) {

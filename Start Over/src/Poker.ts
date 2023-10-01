@@ -61,12 +61,6 @@ export function GetSuit(getSuitInput: string): string{
 }
 
 
-// Creating a card type
-
-export interface Card {
-	face: number | string
-    suit: string
-}
 
 
 // Cet the card as an object from a poker card string
@@ -92,3 +86,63 @@ export function GetCard(getCardInput : string): Card | string {
 
     return Card1
 }
+
+// Creating a card type
+
+export interface Card {
+	face: number | string
+    suit: string
+}
+
+type Hand = Card[]
+export function GetHand(handInput: string): any{
+    const cardarray = handInput.split(" ")
+    // console.log(cardarray)
+    
+    let myarray: Hand = [{
+        face: 0,
+        suit : 'unknown'
+    },
+    {
+        face: 0,
+        suit : 'unknown'
+    },
+    {
+        face: 0,
+        suit : 'unknown'
+    },
+    {
+        face: 0,
+        suit : 'unknown'
+    },
+    {
+        face: 0,
+        suit : 'unknown'
+    }
+    ]
+    
+
+for (const card of cardarray) {
+    if (card.length === 2) {
+      const face1 = card[0];
+        // console.log(face1)
+    let cardface = GetFace(face1)
+        // console.log(cardface)
+    
+    if (card.length === 2) {
+    const suit = card[1];
+    // console.log(suit)
+    let cardsuit =GetSuit(' '+suit)
+    // console.log(cardsuit)
+     
+        let card1:Card = {
+            face : cardface, 
+            suit : cardsuit
+        }
+
+        // console.log(card1)
+        myarray.push(card1)
+    }}}
+    // Filter out objects with default values
+  myarray = myarray.filter(card => card.face !== 0 || card.suit !== 'unknown');
+    return (myarray)}
