@@ -34,12 +34,12 @@ test('get the card from a poker card string', () => {
     expect (cardA.suit).toBe('Hearts')
     }
     let cardB : Card |string = GetCard('7C')
-    if (typeof cardB === 'object' && cardA !== null) {
+    if (typeof cardB === 'object' && cardB !== null) {
     expect (cardB.face).toBe(7)
     expect (cardB.suit).toBe('Clubs')
     }
     let card1 : Card |string = GetCard('KH')
-    if (typeof card1 === 'object' && cardA !== null) {
+    if (typeof card1 === 'object' && card1 !== null) {
     expect (card1.face).toBe(13)
     expect (card1.suit).toBe('Hearts')
     }
