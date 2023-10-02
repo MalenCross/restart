@@ -34,7 +34,7 @@ export function GetFace(GetFaceInput: string): number | string {
         parsedFaceOutput = 'not a valid face value';
       }
     }
-    return parsedFaceOutput
+return parsedFaceOutput
 }
 
 
@@ -57,13 +57,13 @@ export function GetSuit(getSuitInput: string): string{
     if(unparsedSuit === 'C'){
         parsedSuit = 'Clubs'
     }
-    return parsedSuit
+return parsedSuit
 }
 
 
 
 
-// Cet the card as an object from a poker card string
+// Cet the card as an object from a poker card string or return an eeror string
 
 export function GetCard(getCardInput : string): Card | string {
 
@@ -83,9 +83,9 @@ export function GetCard(getCardInput : string): Card | string {
     if(parsedSuit === 'not a valid suit'){
         return 'not a valid suit'
     }
-
-    return Card1
+return Card1
 }
+
 
 // Creating a card type
 
@@ -94,55 +94,28 @@ export interface Card {
     suit: string
 }
 
+
+// Creating a card type
+
 type Hand = Card[]
-export function GetHand(handInput: string): any{
-    const cardarray = handInput.split(" ")
-    // console.log(cardarray)
+
+
+// Get the hand ans an array of Card objects or return an error string
+
+export function GetHand(handInput: string): Hand | string  {
+
+    const handArray  = handInput.split(" ")
+    let parsedArray: Hand | string = []
     
-    let myarray: Hand = [{
-        face: 0,
-        suit : 'unknown'
-    },
-    {
-        face: 0,
-        suit : 'unknown'
-    },
-    {
-        face: 0,
-        suit : 'unknown'
-    },
-    {
-        face: 0,
-        suit : 'unknown'
-    },
-    {
-        face: 0,
-        suit : 'unknown'
+    for(const cardstring of handArray)
+    if(cardstring.length === 2){
+    const card  = GetCard(cardstring)
+
+    if(typeof card === 'object'){
+    parsedArray.push(card)
     }
-    ]
-    
-
-for (const card of cardarray) {
-    if (card.length === 2) {
-      const face1 = card[0];
-        // console.log(face1)
-    let cardface = GetFace(face1)
-        // console.log(cardface)
-    
-    if (card.length === 2) {
-    const suit = card[1];
-    // console.log(suit)
-    let cardsuit =GetSuit(' '+suit)
-    // console.log(cardsuit)
-     
-        let card1:Card = {
-            face : cardface, 
-            suit : cardsuit
-        }
-
-        // console.log(card1)
-        myarray.push(card1)
-    }}}
-    // Filter out objects with default values
-  myarray = myarray.filter(card => card.face !== 0 || card.suit !== 'unknown');
-    return (myarray)}
+    else if(typeof card === 'string'){
+    return card
+    }}
+return parsedArray
+}
