@@ -54,29 +54,26 @@ test('get the card from a poker card string', () => {
     
 })
 test('get the card from a poker card string', () => {
-expect(GetHand('2H TS 9C AS 7D')).toEqual([{
-    face: 2,
-    suit : 'Hearts'
-},{
-    face: 10,
-    suit : 'Spades'
-},{
-    face: 9,
-    suit : 'Clubs'
-},{
-    face: 14,
-    suit : 'Spades'
-},{
-    face: 7,
-    suit : 'Diamonds'
-}])
-})
+    expect(GetHand('2H TS 9C AS 7D')).toEqual([{
+        face: 2,
+        suit : 'Hearts'
+    },{
+        face: 10,
+        suit : 'Spades'
+    },{
+        face: 9,
+        suit : 'Clubs'
+    },{
+        face: 14,
+        suit : 'Spades'
+    },{
+        face: 7,
+        suit : 'Diamonds'
+    }])
 
+    expect(GetHand('XH TS 9C AS 7D')).toBe('not a valid face value')
 
-test('get the card from a poker card string', () => {
-    expect(GetHand('XH TS 9C AS 7D')).toEqual('not a valid face value')
-
-    expect(GetHand('2H TS 9C AP 7D')).toEqual('not a valid suit')
+    expect(GetHand('2H TS 9C AP 7D')).toBe('not a valid suit')
  
-    expect(GetHand('2H TS 9C LP 7D')).toEqual('not a valid face value and not a valid suit value')
+    expect(GetHand('2H TS 9C LP 7D')).toBe('not a valid face value and not a valid suit value')
  })

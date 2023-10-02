@@ -114,7 +114,7 @@ export function GetHand(handInput: string): Hand | string  {
     if(typeof card === 'object'){
     parsedArray.push(card)
     }
-    else if(typeof card === 'string'){
+    if(typeof card === 'string'){
     return card
     }}
 return parsedArray
