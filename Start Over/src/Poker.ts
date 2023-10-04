@@ -148,6 +148,17 @@ export function CountFaces(hand: Hand): { [key: string]: number } {
     }
     return faceCounts;
 }
+export function DetectOfAKind(searchCount: number, hand: Hand): boolean {
+    let faceCounts = CountFaces(hand)
+    let counts = Object.values(faceCounts)
+
+    for (let count of counts) {
+        if (count === searchCount) {
+            return true
+        }
+    }
+    return false
+}
 
 export function DetectPair(hand: Hand): boolean {
     return DetectOfAKind(2, hand);
@@ -161,12 +172,44 @@ export function DetectFourOfAKind(hand: Hand): boolean {
     return DetectOfAKind(4, hand);
 }
 
-export function DetectOfAKind(searchCount: number, hand: Hand): boolean {
-    let faceCounts = CountFaces(hand)
-    let counts = Object.values(faceCounts)
 
-    for (let count of counts) {
-        if (count === searchCount) {
+
+
+
+
+export function DetectFlush(handString: string): boolean {
+    let hand = GetHand(handString)
+
+    if (typeof hand === 'object') {
+        let suitCounts: any = {};
+        for (let card of hand) {
+            if (suitCounts[card.suit] === undefined) {
+                suitCounts[card.suit] = 1;
+            } else {
+                suitCounts[card.suit] = suitCounts[card.suit] + 1;
+            }
+        }
+        let counts = Object.values(suitCounts)
+        for (let count of counts) {
+            if (count === 5) {
+                return true
+            }
+        }
+    }
+    return false
+}
+
+
+
+// detect full house
+export function DetectFullHouse(handstring: string): boolean {
+    let hand = GetHand(handstring)
+    if (typeof hand === 'object') {
+
+        let twoPair = DetectPair(hand)
+        let threePair = DetectThreeOfAKind(hand)
+
+        if (twoPair === true && threePair === true) {
             return true
         }
     }
@@ -176,10 +219,103 @@ export function DetectOfAKind(searchCount: number, hand: Hand): boolean {
 
 
 
+// detect 2 pair
+export function DetectTwoPair(handstring: string): boolean {
+    let hand = GetHand(handstring)
+
+    if (typeof hand === 'object') {
+        let countedCards = CountFaces(hand)
+        console.log(countedCards)
+
+        let counts = Object.values(countedCards)
+        console.log(counts)
+
+        let countedPairs = 0
+        for (let count of counts) {
+            if (count === 2){
+                countedPairs++
+            }
+           
+        }
+        console.log(countedPairs)
+        if( countedPairs === 2){
+            return true
+        }
+    }
+
+    return false
+}
 
 
+// // detect 2 pair
+// export function DetectTwoPair(handstring: string): boolean {
+//     let hand = GetHand(handstring)
+
+//     if (typeof hand === 'object') {
+//         let countedCards = CountFaces(hand)
+//         console.log(countedCards)
+//         let pairCounts: any = {}
+//         let counts = Object.values(countedCards)
+//         console.log(counts)
+
+//         for (let countedPairs of counts) {
+//             if (pairCounts[countedCards.face] === undefined) {
+//                 pairCounts[countedPairs] = 1
+//             }
+//             // let pairCountValues = Object.values(pairCounts)
+//             else {
+//                 let pairCounts[countedPairs] = pairCounts[countedPairs] + 1
+//             } 
+//             // console.log(countedPairs)
+//         }
+//         console.log(pairCounts)
+
+//         // let pairCountsParsed = Object.values(pairCounts)
+
+//         // for (let count of pairCountsParsed) {
+//         //     // console.log(pairCountsParsed)
+//         //     // console.log(count)
+//         //     if (count === 2) {
+//         //         return true
+//         //     }
+//         // }
+//         if( pairCounts['2'] === 1){
+//             return true
+//         }
+//     }
+
+//     return false
+// }
 
 
+// // detect full house
+// export function DetectFullHouse(handstring: string): boolean {
+//     let hand = GetHand(handstring)
+//     if (typeof hand === 'object') {
+//         let countedFaces = CountFaces(hand)
+//         console.log(countedFaces)
+//         let twoPair = false
+//         let threePair = false
+
+
+//         let counts = Object.values(countedFaces)
+//         for (let count of counts) {
+
+//             console.log(counts)
+//             if (count === 2) {
+//                 twoPair = true
+//             }
+//             if (count === 3) {
+//                 threePair = true
+//             }
+//             if (twoPair === true && threePair === true) {
+//                 return true
+//             }
+//         }
+//     }
+//     return false
+
+// }
 
 
 

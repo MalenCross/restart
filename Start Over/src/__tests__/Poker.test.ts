@@ -1,4 +1,4 @@
-import { DetectFourOfAKind, DetectThreeOfAKind, Hand, DetectPair, Suit, Card, GetFace, GetSuit, GetCard, GetHand, ParseError } from "../Poker.ts";;
+import { DetectTwoPair, DetectFullHouse, DetectFlush, DetectFourOfAKind, DetectThreeOfAKind, Hand, DetectPair, Suit, Card, GetFace, GetSuit, GetCard, GetHand, ParseError } from "../Poker.ts";;
 
 
 test('Get face value a playing card', () => {
@@ -97,9 +97,27 @@ test('detect four of a kind', () => {
     expect(DetectFourOfAKind(GetHand('8H 8S 9C 8S 8D') as Hand)).toBe(true);
 })
 
+test('detect Strait', () => {
+    expect(DetectFlush('2H 8S 9C AS 7D')).toBe(false);
+    expect(DetectFlush('6H 8H 9H 3H 2H')).toBe(true);
+    expect(DetectFlush('6H zH 9H 3H 2H')).toBe(false);
+})
 
-// full house
-// two pair
-// flush
+
+test('detect full house', () => {
+    expect(DetectFullHouse('2H 8S 9C AS 7D')).toBe(false);
+    expect(DetectFullHouse('6H 6C 6S 3H 3S')).toBe(true);
+    expect(DetectFullHouse('6H zH 9H 3H 2H')).toBe(false);
+})
+
+test('detect two pair', () => {
+    expect(DetectTwoPair('2H 8S 9C AS 7D')).toBe(false);
+    expect(DetectTwoPair('6H 6C 2S 3H 3S')).toBe(true);
+    expect(DetectTwoPair('6H zH 9H 3H 2H')).toBe(false);
+    expect(DetectTwoPair('6H 6S 9H 9S 9C')).toBe(false);
+})
+
+
+
 
 // straight
