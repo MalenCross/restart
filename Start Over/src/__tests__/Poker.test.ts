@@ -1,5 +1,5 @@
 
-import {DetectStraightFlush, DetectHighCard, DetectStraight, DetectTwoPair, DetectFullHouse, DetectFlush, DetectFourOfAKind, DetectThreeOfAKind, Hand, DetectPair, Suit, Card, GetFace, GetSuit, GetCard, GetHand, ParseError } from "../Poker.ts";;
+import { WinHighCard, SplitHandStrings, DetectStraightFlush, DetectHighCard, DetectStraight, DetectTwoPair, DetectFullHouse, DetectFlush, DetectFourOfAKind, DetectThreeOfAKind, Hand, DetectPair, Suit, Card, GetFace, GetSuit, GetCard, GetHand, ParseError } from "../Poker.ts";;
 
 
 test('Get face value a playing card', () => {
@@ -83,10 +83,10 @@ test('get the card from a poker card string', () => {
 })
 
 test('detect high card', () => {
-    expect(DetectHighCard('2H 3S 4C 5S 6D')).toEqual([6,5,4,3,2]);
-    expect(DetectHighCard('TH JC KS QH AS')).toEqual([14,13,12,11,10]);
+    expect(DetectHighCard('2H 3S 4C 5S 6D')).toEqual([6, 5, 4, 3, 2]);
+    expect(DetectHighCard('TH JC KS QH AS')).toEqual([14, 13, 12, 11, 10]);
     expect(DetectHighCard('AH 1H 3D 4H 5H')).toEqual([]);
-    expect(DetectHighCard('6H 6S 9H 9S 9C')).toEqual([9,9,9,6,6]);
+    expect(DetectHighCard('6H 6S 9H 9S 9C')).toEqual([9, 9, 9, 6, 6]);
 })
 
 // test('count the faces), () => {
@@ -146,11 +146,22 @@ test('detect straight flush', () => {
 })
 
 
+test('win with high card', () => {
+    expect(SplitHandStrings('AH 3S 4C 5S 6D  2H 8S 9C AS 7D')).toEqual(["AH 3S 4C 5S 6D", "2H 8S 9C AS 7D"]);
+})
 
 
-
-
-
+test('win with high card', () => {
+    expect(WinHighCard('AH KS QC JS TD  KH KS QC JS TD')).toBe('Player 1 Wins');
+    expect(WinHighCard('KH KS QC JS TD  AH KS QC JS TD')).toBe('Player 2 Wins');
+    expect(WinHighCard('AH AS QC JS TD  AH KS QC JS TD')).toBe('Player 1 Wins');
+    expect(WinHighCard('AH KS QC JS TD  AH AS QC JS TD')).toBe('Player 2 Wins');
+    expect(WinHighCard('AH KS KC JS TD  AH KS QC JS TD')).toBe('Player 1 Wins');
+    expect(WinHighCard('AH KS QC JS TD  AH KS KC JS TD')).toBe('Player 2 Wins');
+    expect(WinHighCard('AH KS QC QS TD  AH KS QC JS TD')).toBe('Player 1 Wins');
+    expect(WinHighCard('AH KS QC JS TD  AH KS QC QS TD')).toBe('Player 2 Wins');
+    expect(WinHighCard('AH KS QC JS TD  AH KS QC JS TD')).toBe('Tie');
+})
 
 
 

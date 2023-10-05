@@ -141,16 +141,16 @@ export function GetHand(handInput: string): Hand | ParseError {
 
 //  detect high card in a hand
 
-export function DetectHighCard(handstring: string | ParseError): number[] | ParseError {
+export function DetectHighCard(handstring: string | ParseError): number[] {
     let hand = GetHand(handstring)
 
     if (typeof hand === 'object') {
         const faces: number[] = hand.map(card => card.face).sort((b, a) => a - b);
 
         return faces
-}
+    }
 
-return []
+    return []
 }
 
 
@@ -300,10 +300,87 @@ export function DetectFourOfAKind(hand: Hand): boolean {
 
 // detect royal flush
 
-export function DetectStraightFlush(handString: string): boolean{
+export function DetectStraightFlush(handString: string): boolean {
 
-    if( DetectFlush(handString) === true && DetectStraight(handString) === true){
+    if (DetectFlush(handString) === true && DetectStraight(handString) === true) {
         return true
     }
     return false
+}
+
+
+
+// win logic
+
+
+// split hand strings
+
+export function SplitHandStrings(twoHandString: string): [string, string] {
+    const splitHands: string[] = twoHandString.split("  ")
+
+    console.log(splitHands)
+
+    let player1 = splitHands[0]
+    let player2 = splitHands[1]
+
+    console.log(player1)
+    console.log(player2)
+
+    return [player1, player2]
+}
+
+
+//  win high card
+
+export function WinHighCard(handStrings: string): string {
+    const [player1String, player2String] = SplitHandStrings(handStrings);
+
+    let player1HandSorted = DetectHighCard(player1String)
+    let player2HandSorted = DetectHighCard(player2String)
+
+    console.log(player1HandSorted)
+    console.log(player2HandSorted)
+
+    if (player1HandSorted[0] > player2HandSorted[0]) {
+        return 'Player 1 Wins'
+    }
+    if (player1HandSorted[0] < player2HandSorted[0]) {
+        return 'Player 2 Wins'
+    }
+    if (player1HandSorted[0] === player2HandSorted[0]) {
+        if (player1HandSorted[1] > player2HandSorted[1]) {
+            return 'Player 1 Wins'
+        }
+        if (player1HandSorted[1] < player2HandSorted[1]) {
+            return 'Player 2 Wins'
+        }
+    }
+    if (player1HandSorted[1] === player2HandSorted[1]) {
+        if (player1HandSorted[2] > player2HandSorted[2]) {
+            return 'Player 1 Wins'
+        }
+        if (player1HandSorted[2] < player2HandSorted[2]) {
+            return 'Player 2 Wins'
+        }
+    }
+    if (player1HandSorted[2] === player2HandSorted[2]) {
+        if (player1HandSorted[3] > player2HandSorted[3]) {
+            return 'Player 1 Wins'
+        }
+        if (player1HandSorted[3] < player2HandSorted[3]) {
+            return 'Player 2 Wins'
+        }
+    }
+    if (player1HandSorted[3] === player2HandSorted[3]) {
+        if (player1HandSorted[4] > player2HandSorted[4]) {
+            return 'Player 1 Wins'
+        }
+        if (player1HandSorted[4] < player2HandSorted[4]) {
+            return 'Player 2 Wins'
+        }
+    }
+    if(player1HandSorted[4] === player2HandSorted[4]) {
+        return 'Tie'
+    }
+    return 'fail'
 }
