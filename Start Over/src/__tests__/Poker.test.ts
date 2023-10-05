@@ -1,5 +1,5 @@
 
-import { WinHighCard, SplitHandStrings, DetectStraightFlush, DetectHighCard, DetectStraight, DetectTwoPair, DetectFullHouse, DetectFlush, DetectFourOfAKind, DetectThreeOfAKind, Hand, DetectPair, Suit, Card, GetFace, GetSuit, GetCard, GetHand, ParseError } from "../Poker.ts";;
+import { WinPair, WinHighCard, SplitHandStrings, DetectStraightFlush, DetectHighCard, DetectStraight, DetectTwoPair, DetectFullHouse, DetectFlush, DetectFourOfAKind, DetectThreeOfAKind, Hand, DetectPair, Suit, Card, GetFace, GetSuit, GetCard, GetHand, ParseError } from "../Poker.ts";;
 
 
 test('Get face value a playing card', () => {
@@ -163,9 +163,13 @@ test('win with high card', () => {
     expect(WinHighCard('AH KS QC JS TD  AH KS QC JS TD')).toBe('Tie');
 })
 
+test('win with Pair', () => {
+    expect(WinPair('AH AS QC JS TD  AH KS QC JS TD')).toBe('Player 1 Wins');
+    expect(WinPair('AH KS QC JS TD  AH AS QC JS TD')).toBe('Player 2 Wins');
+
+})
 
 
 
 
 
-// // straight

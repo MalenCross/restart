@@ -139,6 +139,9 @@ export function GetHand(handInput: string): Hand | ParseError {
 }
 
 
+// start of the win condition logic
+
+
 //  detect high card in a hand
 
 export function DetectHighCard(handstring: string | ParseError): number[] {
@@ -170,9 +173,6 @@ export function CountFaces(hand: Hand): { [key: string]: number } {
 }
 
 
-// start of the win condition logic
-
-
 // function to setect how many instances of a face card exist
 
 export function DetectOfAKind(searchCount: number, hand: Hand): boolean {
@@ -187,6 +187,21 @@ export function DetectOfAKind(searchCount: number, hand: Hand): boolean {
     return false
 }
 
+// trying to figure out how to return the key of the pair
+// export function DetectOfAKind(searchCount: number, hand: Hand): boolean |[boolean , number] {
+//     let faceCounts = CountFaces(hand)
+//     let counts = Object.values(faceCounts)
+//     console.log(faceCounts)
+
+
+//     for (let count of counts) {
+//         if (count === searchCount) {
+//             console.log(count)
+//             return [true , 2]
+//         }
+//     }
+//     return [false, 0]
+// }
 
 //  detect if pair condition is true
 
@@ -318,16 +333,42 @@ export function DetectStraightFlush(handString: string): boolean {
 export function SplitHandStrings(twoHandString: string): [string, string] {
     const splitHands: string[] = twoHandString.split("  ")
 
-    console.log(splitHands)
-
     let player1 = splitHands[0]
     let player2 = splitHands[1]
 
-    console.log(player1)
-    console.log(player2)
-
     return [player1, player2]
 }
+
+
+// win pair
+
+export function WinPair(handStrings: string): string {
+    const [player1String, player2String] = SplitHandStrings(handStrings);
+
+    let player1Hand = GetHand(player1String)
+    let player2Hand = GetHand(player2String)
+
+    if (typeof player1Hand === 'object' && typeof player2Hand === 'object') {
+
+        let player1Pair = DetectPair(player1Hand)
+        let player2Pair = DetectPair(player2Hand)
+
+        if (player1Pair === true && player2Pair === false) {
+            return 'Player 1 Wins'
+        }
+        if (player1Pair === false && player2Pair === true) {
+            return 'Player 2 Wins'
+        }
+        if (player1Pair === true && player2Pair === true) {
+
+        }
+
+    } return ''
+}
+
+
+
+
 
 
 //  win high card
@@ -337,9 +378,6 @@ export function WinHighCard(handStrings: string): string {
 
     let player1HandSorted = DetectHighCard(player1String)
     let player2HandSorted = DetectHighCard(player2String)
-
-    console.log(player1HandSorted)
-    console.log(player2HandSorted)
 
     if (player1HandSorted[0] > player2HandSorted[0]) {
         return 'Player 1 Wins'
@@ -379,7 +417,7 @@ export function WinHighCard(handStrings: string): string {
             return 'Player 2 Wins'
         }
     }
-    if(player1HandSorted[4] === player2HandSorted[4]) {
+    if (player1HandSorted[4] === player2HandSorted[4]) {
         return 'Tie'
     }
     return 'fail'
