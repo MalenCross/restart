@@ -1,5 +1,5 @@
-import { DetectStraightFlush } from "../Poker.ts";
-import {DetectHighCard, DetectStraight, DetectTwoPair, DetectFullHouse, DetectFlush, DetectFourOfAKind, DetectThreeOfAKind, Hand, DetectPair, Suit, Card, GetFace, GetSuit, GetCard, GetHand, ParseError } from "../Poker.ts";;
+
+import {DetectStraightFlush, DetectHighCard, DetectStraight, DetectTwoPair, DetectFullHouse, DetectFlush, DetectFourOfAKind, DetectThreeOfAKind, Hand, DetectPair, Suit, Card, GetFace, GetSuit, GetCard, GetHand, ParseError } from "../Poker.ts";;
 
 
 test('Get face value a playing card', () => {

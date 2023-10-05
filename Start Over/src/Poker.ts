@@ -1,6 +1,6 @@
 // Poker
 
-
+// creating a list of fails
 
 export enum ParseError {
     InvalidFace = "Invalid Face",
@@ -8,6 +8,7 @@ export enum ParseError {
     InvalidCard = "Invalid Card"
 }
 
+// creating a list of suits
 
 export enum Suit {
     Spades = "Spades",
@@ -15,6 +16,22 @@ export enum Suit {
     Diamonds = "Diamonds",
     Clubs = "Clubs"
 }
+
+// Creating a card type
+
+export interface Card {
+    face: number
+    suit: string
+}
+
+// Creating a card type
+
+export type Hand = Card[]
+
+
+
+// start parsing string in to hand
+
 
 // Get face value of card from input string
 
@@ -72,8 +89,6 @@ export function GetSuit(getSuitInput: string): Suit | ParseError.InvalidSuit {
 }
 
 
-
-
 // Cet the card as an object from a poker card string or return an eeror string
 
 export function GetCard(getCardInput: string): Card | ParseError {
@@ -95,18 +110,6 @@ export function GetCard(getCardInput: string): Card | ParseError {
         suit: parsedSuit
     }
 }
-
-// Creating a card type
-
-export interface Card {
-    face: number
-    suit: string
-}
-
-
-// Creating a card type
-
-export type Hand = Card[]
 
 
 // Get the hand ans an array of Card objects or return an error string
@@ -135,7 +138,24 @@ export function GetHand(handInput: string): Hand | ParseError {
     return parsedArray
 }
 
-// RED GREEN REFACTOR
+
+//  detect high card in a hand
+
+export function DetectHighCard(handstring: string | ParseError): number[] | ParseError {
+    let hand = GetHand(handstring)
+
+    if (typeof hand === 'object') {
+        const faces: number[] = hand.map(card => card.face).sort((b, a) => a - b);
+
+        return faces
+}
+
+return []
+}
+
+
+// setup for detecting pairs, counts how many time each face occurs
+
 export function CountFaces(hand: Hand): { [key: string]: number } {
     let faceCounts: any = {};
     for (let card of hand) {
@@ -148,6 +168,13 @@ export function CountFaces(hand: Hand): { [key: string]: number } {
     }
     return faceCounts;
 }
+
+
+// start of the win condition logic
+
+
+// function to setect how many instances of a face card exist
+
 export function DetectOfAKind(searchCount: number, hand: Hand): boolean {
     let faceCounts = CountFaces(hand)
     let counts = Object.values(faceCounts)
@@ -160,22 +187,69 @@ export function DetectOfAKind(searchCount: number, hand: Hand): boolean {
     return false
 }
 
+
+//  detect if pair condition is true
+
 export function DetectPair(hand: Hand): boolean {
     return DetectOfAKind(2, hand);
 }
+
+
+// detect 2 pair
+
+export function DetectTwoPair(handstring: string): boolean {
+    let hand = GetHand(handstring)
+
+    if (typeof hand === 'object') {
+        let countedCards = CountFaces(hand)
+        let counts = Object.values(countedCards)
+
+        let countedPairs = 0
+        for (let count of counts) {
+            if (count === 2) {
+                countedPairs++
+            }
+        }
+        if (countedPairs === 2) {
+            return true
+        }
+    }
+    return false
+}
+
+
+// detect tree of a kind
 
 export function DetectThreeOfAKind(hand: Hand): boolean {
     return DetectOfAKind(3, hand);
 }
 
-export function DetectFourOfAKind(hand: Hand): boolean {
-    return DetectOfAKind(4, hand);
+
+// detect straight
+
+export function DetectStraight(handstring: string): boolean {
+    let hand = GetHand(handstring)
+
+    if (typeof hand === 'object') {
+        const faces: number[] = hand.map(card => card.face).sort((a, b) => a - b);
+
+        for (let i = 1; i < faces.length; i++) {
+            if (faces[i] - faces[i - 1] !== 1) {
+                break;
+            }
+            if (i === faces.length - 1) {
+                return true
+            }
+        }
+        if (faces[0] === 2 && faces[1] === 3 && faces[2] === 4 && faces[3] === 5 && faces[4] === 14) {
+            return true
+        }
+    }
+    return false
 }
 
 
-
-
-
+// detect flush
 
 export function DetectFlush(handString: string): boolean {
     let hand = GetHand(handString)
@@ -200,8 +274,8 @@ export function DetectFlush(handString: string): boolean {
 }
 
 
-
 // detect full house
+
 export function DetectFullHouse(handstring: string): boolean {
     let hand = GetHand(handstring)
     if (typeof hand === 'object') {
@@ -217,206 +291,19 @@ export function DetectFullHouse(handstring: string): boolean {
 }
 
 
+// detect four of a kind
 
-
-// detect 2 pair
-export function DetectTwoPair(handstring: string): boolean {
-    let hand = GetHand(handstring)
-
-    if (typeof hand === 'object') {
-        let countedCards = CountFaces(hand)
-        let counts = Object.values(countedCards)
-
-        let countedPairs = 0
-        for (let count of counts) {
-            if (count === 2) {
-                countedPairs++
-            }
-        }
-        if (countedPairs === 2) {
-            return true
-        }
-    }
-    return false
+export function DetectFourOfAKind(hand: Hand): boolean {
+    return DetectOfAKind(4, hand);
 }
 
 
+// detect royal flush
 
+export function DetectStraightFlush(handString: string): boolean{
 
-
-export function DetectStraight(handstring: string): boolean {
-    let hand = GetHand(handstring)
-
-    if (typeof hand === 'object') {
-        const faces: number[] = hand.map(card => card.face).sort((a, b) => a - b);
-
-        for (let i = 1; i < faces.length; i++) {
-            if (faces[i] - faces[i - 1] !== 1) {
-                break;
-            }
-            if (i === faces.length - 1) {
-                return true
-            }
-        }
-        if (faces[0] === 2 && faces[1] === 3 && faces[2] === 4 && faces[3] === 5 && faces[4] === 14) {
-            return true
-        }
+    if( DetectFlush(handString) === true && DetectStraight(handString) === true){
+        return true
     }
     return false
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // detect 2 pair
-// export function DetectTwoPair(handstring: string): boolean {
-//     let hand = GetHand(handstring)
-
-//     if (typeof hand === 'object') {
-//         let countedCards = CountFaces(hand)
-//         console.log(countedCards)
-//         let pairCounts: any = {}
-//         let counts = Object.values(countedCards)
-//         console.log(counts)
-
-//         for (let countedPairs of counts) {
-//             if (pairCounts[countedCards.face] === undefined) {
-//                 pairCounts[countedPairs] = 1
-//             }
-//             // let pairCountValues = Object.values(pairCounts)
-//             else {
-//                 let pairCounts[countedPairs] = pairCounts[countedPairs] + 1
-//             } 
-//             // console.log(countedPairs)
-//         }
-//         console.log(pairCounts)
-
-//         // let pairCountsParsed = Object.values(pairCounts)
-
-//         // for (let count of pairCountsParsed) {
-//         //     // console.log(pairCountsParsed)
-//         //     // console.log(count)
-//         //     if (count === 2) {
-//         //         return true
-//         //     }
-//         // }
-//         if( pairCounts['2'] === 1){
-//             return true
-//         }
-//     }
-
-//     return false
-// }
-
-
-// // detect full house
-// export function DetectFullHouse(handstring: string): boolean {
-//     let hand = GetHand(handstring)
-//     if (typeof hand === 'object') {
-//         let countedFaces = CountFaces(hand)
-//         console.log(countedFaces)
-//         let twoPair = false
-//         let threePair = false
-
-
-//         let counts = Object.values(countedFaces)
-//         for (let count of counts) {
-
-//             console.log(counts)
-//             if (count === 2) {
-//                 twoPair = true
-//             }
-//             if (count === 3) {
-//                 threePair = true
-//             }
-//             if (twoPair === true && threePair === true) {
-//                 return true
-//             }
-//         }
-//     }
-//     return false
-
-// }
-
-
-
-// export enum ParseError {
-//     InvalidFace = 'Invalid Face',
-//     InvalidSuit = 'Invalid Suit',
-//     // card = 'Invalid Card'
-// }
-// export enum Suit {
-//     Spades = 'Spades',
-//     Hearts = 'Hearts',
-//     Diamonds = 'Diamonds',
-//     Clubs = 'Clubs'
-// }
-// export function GetFace(GetFaceInput: string): number | ParseError {
-//     let unparsedFace = GetFaceInput[0]
-
-//     if (unparsedFace === 'T') {
-//         return 10
-//     }
-//     if (unparsedFace === 'J') {
-//         return 11
-//     }
-//     if (unparsedFace === 'Q') {
-//         return 12
-//     }
-//     if (unparsedFace === 'K') {
-//         return 13
-//     }
-//     if (unparsedFace === 'A') {
-//         return 14
-//     }
-
-//     else {
-//         let parsedFace = parseInt(unparsedFace)
-
-//         if (isNaN(parsedFace) || parsedFace < 2 || parsedFace > 9) {
-//             return ParseError.InvalidFace;
-//         }
-//         return parsedFace
-//     }
-// }
-
-// export function GetSuit(getSuit: string): Suit | ParseError {
-//     let unparsedSuit = getSuit[1]
-
-//     if (unparsedSuit === 'S') {
-//         return Suit.Spades
-//     }
-//     else if (unparsedSuit === 'H') {
-//         return Suit.Hearts
-//     }
-//     if (unparsedSuit === 'D') {
-//         return Suit.Diamonds
-//     }
-//     if (unparsedSuit === 'C') {
-//         return Suit.Clubs
-//     }
-//     else {
-//         return ParseError.InvalidSuit
-//     }
-// }
-// export function GetCard( getCard: string): Card | ParseError {
-//     let unparsedFace = getCard[0]
-//     let unparsedSuit = getCard[1]
-
-//     let parsedFace = GetFace(unparsedFace)
-//     let par
-// }
