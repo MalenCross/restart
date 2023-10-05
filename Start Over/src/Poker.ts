@@ -225,26 +225,61 @@ export function DetectTwoPair(handstring: string): boolean {
 
     if (typeof hand === 'object') {
         let countedCards = CountFaces(hand)
-        console.log(countedCards)
-
         let counts = Object.values(countedCards)
-        console.log(counts)
 
         let countedPairs = 0
         for (let count of counts) {
-            if (count === 2){
+            if (count === 2) {
                 countedPairs++
             }
-           
         }
-        console.log(countedPairs)
-        if( countedPairs === 2){
+        if (countedPairs === 2) {
             return true
         }
     }
-
     return false
 }
+
+
+
+
+
+export function DetectStraight(handstring: string): boolean {
+    let hand = GetHand(handstring)
+
+    if (typeof hand === 'object') {
+        const faces: number[] = hand.map(card => card.face).sort((a, b) => a - b);
+
+        for (let i = 1; i < faces.length; i++) {
+            if (faces[i] - faces[i - 1] !== 1) {
+                break;
+            }
+            if (i === faces.length - 1) {
+                return true
+            }
+        }
+        if (faces[0] === 2 && faces[1] === 3 && faces[2] === 4 && faces[3] === 5 && faces[4] === 14) {
+            return true
+        }
+    }
+    return false
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // // detect 2 pair
