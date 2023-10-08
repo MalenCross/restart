@@ -1,4 +1,4 @@
-import { JudgeWinner, PrintWinner } from "../PokerJudging";
+import { JudgeWinner, PlayGame, PrintWinner } from "../PokerJudging";
 import { HandType } from "../Detection";
 
 //                PlayGame(string):string
@@ -20,5 +20,5 @@ test('print winner', () => {
 
 
 test('play game', () => {
-    // expect(PlayGame("2H TS AC AS 7D - 2H TS 9C AD 7D")).toBe("Player 1 Wins");
+    expect(PlayGame("2H TS AC AS 7D - 2H TS 9C AD 7D")).toBe("Player 1 Wins");
 });

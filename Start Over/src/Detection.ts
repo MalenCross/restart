@@ -92,10 +92,13 @@ export function DetectThreeOfAKind(hand: Hand): boolean {
 // detect straight
 
 export function DetectStraight(hand: Hand): boolean {
+    // console.log(hand)
     const faces: number[] = hand.map(card => card.face).sort((a, b) => a - b);
-
+    // let facesUnsorted = Object.values(hand.card[face])
+    // console.log(facesUnsorted)
     for (let i = 1; i < faces.length; i++) {
         if (faces[i] - faces[i - 1] !== 1) {
+            // console.log(faces)
             break;
         }
         if (i === faces.length - 1) {
@@ -169,10 +172,28 @@ export function DetectHand(hand: Hand): HandType {
         return HandType.ThreeOfAKind
     }
 
-    // if(DetectTwoPair(hand)){
-    //     return HandType.ThreeOfAKind
-    // }
+    if (DetectTwoPair(hand)) {
+        return HandType.TwoPair
+    }
+    if (DetectStraight(hand)) {
+        return HandType.Straight
+    }
 
+    if (DetectFlush(hand)) {
+        return HandType.Flush
+    }
 
-    return HandType.HighCard;
+    if (DetectFullHouse(hand)) {
+        return HandType.FullHouse
+    }
+    if (DetectFourOfAKind(hand)) {
+        return HandType.FourOfAKind
+    }
+
+    if (DetectStraightFlush(hand)) {
+        return HandType.StraightFlush
+    }
+    else {
+        return HandType.HighCard;
+    }
 }
