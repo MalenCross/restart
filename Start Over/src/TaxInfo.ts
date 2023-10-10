@@ -139,7 +139,7 @@ export function W2Taxes(grossWithoutD: number): [number, number, number] {
             break
         }
     }
-    console.log(count)
+    // console.log(count)
     let efectiveTaxRate = 0
     if( taxtotal === 0){
        efectiveTaxRate = 0
