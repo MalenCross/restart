@@ -13,6 +13,12 @@ type TotalTaxLoad = {
     efectiveTaxRate : number   
 }
 
+type TotalTaxInfo = {
+    taxesOwed: number,
+    efectiveTaxRate : number
+
+}
+
 type TaxBracketInfo = {
     taxesOwed: number,
     marginalTaxRate: number,  
@@ -178,21 +184,21 @@ export function BracketTax(grossWithoutD: number): TaxBracketInfo [] {
 
 
 
-export function TotalFicaTax(netW2: number): number[] {
+export function TotalFicaTax(netW2: number): TaxInfo {
 
 
-    let ficaTax = SocialSTax(netW2)[0] + MedicareTax(netW2)[0]
+    let ficaTax = SocialSTax(netW2).taxesOwed + MedicareTax(netW2).taxesOwed
     ficaTax = parseFloat(ficaTax.toFixed(2));
 
     let efectiveTaxRate = EfectiveTaxRate(ficaTax, netW2)
 
 
 
-    return [ficaTax, FicaTaxRate.TotalFicaTaxRate, efectiveTaxRate]
+    return {taxesOwed: ficaTax, marginalTaxRate: FicaTaxRate.TotalFicaTaxRate, efectiveTaxRate: efectiveTaxRate}
 
 }
 
-export function SocialSTax(netW2: number): number[] {
+export function SocialSTax(netW2: number): TaxInfo {
 
     let adjustedGrossIncome = StanderdDeduction(netW2)
 
@@ -208,12 +214,12 @@ export function SocialSTax(netW2: number): number[] {
 
     let effectiveTaxeRate = EfectiveTaxRate(ssTax, netW2)
 
-    return [ssTax, FicaTaxRate.SocialSecurityTaxRate, effectiveTaxeRate]
+    return {taxesOwed: ssTax, marginalTaxRate: FicaTaxRate.SocialSecurityTaxRate, efectiveTaxRate: effectiveTaxeRate}
 
 
 }
 
-export function MedicareTax(netW2: number): number[] {
+export function MedicareTax(netW2: number): TaxInfo {
     
     let adjustedGrossIncome = StanderdDeduction(netW2)
 
@@ -226,16 +232,16 @@ export function MedicareTax(netW2: number): number[] {
 
     let effectiveTaxeRate = EfectiveTaxRate(medTax, netW2)
 
-    return [medTax, FicaTaxRate.MedicareTaxRate, effectiveTaxeRate]
+    return { taxesOwed: medTax, marginalTaxRate: FicaTaxRate.MedicareTaxRate, efectiveTaxRate: effectiveTaxeRate}
 }
 
-export function TotalTax(netW2: number): number[] {
+export function TotalTax(netW2: number): TotalTaxInfo {
     let incomTax = W2Tax(netW2)
     let ficaTax = TotalFicaTax(netW2)
-    let totalTax = (incomTax.taxesOwed + ficaTax[0])
+    let totalTax = (incomTax.taxesOwed + ficaTax.taxesOwed)
     totalTax = parseFloat(totalTax.toFixed(2));
     
     let efectiveTaxRate = EfectiveTaxRate(totalTax, netW2)
 
-    return [totalTax, efectiveTaxRate]
+    return { taxesOwed: totalTax, efectiveTaxRate: efectiveTaxRate}
 }

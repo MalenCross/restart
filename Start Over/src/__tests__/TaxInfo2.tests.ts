@@ -29,44 +29,44 @@ test(' get taxes owed, marginal tax rate, efective tax rate for each bracket', (
 });
 
 test('for total fica tax get taxes owed, marginal tax rate, efective tax rate', () => {
-    expect(TotalFicaTax(9345)).toEqual([0, 0.0765, 0]);
-    expect(TotalFicaTax(30000)).toEqual([1304.33, 0.0765, 0.043]);
-    expect(TotalFicaTax(75000)).toEqual([4746.83, 0.0765, 0.063]);
-    expect(TotalFicaTax(150000)).toEqual([10484.33, 0.0765, 0.07]);
-    expect(TotalFicaTax(200000)).toEqual([12644.63, 0.0765, 0.063]);
-    expect(TotalFicaTax(500000)).toEqual([16994.63, 0.0765, 0.034]);
-    expect(TotalFicaTax(750000)).toEqual([20619.63, 0.0765, 0.027]);
-    expect(TotalFicaTax(1000000)).toEqual([24244.63, 0.0765, 0.024]);
-    expect(TotalFicaTax(1500000)).toEqual([31494.63, 0.0765, 0.021]);
-    expect(TotalFicaTax(10000000)).toEqual([154744.63, 0.0765, 0.015]);
+    expect(TotalFicaTax(9345)).toEqual({"efectiveTaxRate": 0, "marginalTaxRate": 0.0765, "taxesOwed": 0});
+    expect(TotalFicaTax(30000)).toEqual( {"efectiveTaxRate": 0.043, "marginalTaxRate": 0.0765, "taxesOwed": 1304.33});
+    expect(TotalFicaTax(75000)).toEqual({"efectiveTaxRate": 0.063, "marginalTaxRate": 0.0765, "taxesOwed": 4746.83});
+    expect(TotalFicaTax(150000)).toEqual({"efectiveTaxRate": 0.07, "marginalTaxRate": 0.0765, "taxesOwed": 10484.33});
+    expect(TotalFicaTax(200000)).toEqual( {"efectiveTaxRate": 0.063, "marginalTaxRate": 0.0765, "taxesOwed": 12644.63});
+    expect(TotalFicaTax(500000)).toEqual({"efectiveTaxRate": 0.034, "marginalTaxRate": 0.0765, "taxesOwed": 16994.63});
+    expect(TotalFicaTax(750000)).toEqual({"efectiveTaxRate": 0.027, "marginalTaxRate": 0.0765, "taxesOwed": 20619.63});
+    expect(TotalFicaTax(1000000)).toEqual({"efectiveTaxRate": 0.024, "marginalTaxRate": 0.0765, "taxesOwed": 24244.63});
+    expect(TotalFicaTax(1500000)).toEqual({"efectiveTaxRate": 0.021, "marginalTaxRate": 0.0765, "taxesOwed": 31494.63});
+    expect(TotalFicaTax(10000000)).toEqual({"efectiveTaxRate": 0.015, "marginalTaxRate": 0.0765, "taxesOwed": 154744.63});
 });
 
 test(' for social secerity tax get taxes owed, marginal tax rate, efective tax rate', () => {
-    expect(SocialSTax(9345)).toEqual([0, 0.062, 0]);
-    expect(SocialSTax(30000)).toEqual([1057.1, 0.062, 0.035]);
-    expect(SocialSTax(75000)).toEqual([3847.1, 0.062, 0.051]);
-    expect(SocialSTax(150000)).toEqual([8497.1, 0.062, 0.057]);
-    expect(SocialSTax(200000)).toEqual([9932.4, 0.062, 0.05]);
-    expect(SocialSTax(500000)).toEqual([9932.4, 0.062, 0.02]);
+    expect(SocialSTax(9345)).toEqual({"efectiveTaxRate": 0, "marginalTaxRate": 0.062, "taxesOwed": 0});
+    expect(SocialSTax(30000)).toEqual({"efectiveTaxRate": 0.035, "marginalTaxRate": 0.062, "taxesOwed": 1057.1});
+    expect(SocialSTax(75000)).toEqual({"efectiveTaxRate": 0.051, "marginalTaxRate": 0.062, "taxesOwed": 3847.1});
+    expect(SocialSTax(150000)).toEqual({"efectiveTaxRate": 0.057, "marginalTaxRate": 0.062, "taxesOwed": 8497.1});
+    expect(SocialSTax(200000)).toEqual({"efectiveTaxRate": 0.05, "marginalTaxRate": 0.062, "taxesOwed": 9932.4});
+    expect(SocialSTax(500000)).toEqual({"efectiveTaxRate": 0.02, "marginalTaxRate": 0.062, "taxesOwed": 9932.4});
     
 });
 
 test(' for medicare tax get taxes owed, marginal tax rate, efective tax rate', () => {
-    expect(MedicareTax(9345)).toEqual([0, 0.0145, 0]);
-    expect(MedicareTax(30000)).toEqual([247.23, 0.0145, 0.008]);
-    expect(MedicareTax(75000)).toEqual([899.73, 0.0145, 0.012]);
+    expect(MedicareTax(9345)).toEqual({"efectiveTaxRate": 0, "marginalTaxRate": 0.0145, "taxesOwed": 0});
+    expect(MedicareTax(30000)).toEqual({"efectiveTaxRate": 0.008, "marginalTaxRate": 0.0145, "taxesOwed": 247.23});
+    expect(MedicareTax(75000)).toEqual({"efectiveTaxRate": 0.012, "marginalTaxRate": 0.0145, "taxesOwed": 899.73});
    
 });
 
 test(' w2tax get taxes owed, marginal tax rate, efective tax rate', () => {
-    expect(TotalTax(9345)).toEqual([0, 0]);
-    expect(TotalTax(30000)).toEqual([3144.71, 0.105]);
-    expect(TotalTax(75000)).toEqual([14014.49, 0.187]);
-    expect(TotalTax(150000)).toEqual([37211.25, 0.248]);
-    expect(TotalTax(200000)).toEqual([52731.23, 0.264]);
-    expect(TotalTax(500000)).toEqual([161213.88, 0.322]);
-    expect(TotalTax(750000)).toEqual([256281.51, 0.342]);
-    expect(TotalTax(1000000)).toEqual([352406.51, 0.352]);
-    expect(TotalTax(1500000)).toEqual([544656.51, 0.363]);
-    expect(TotalTax(10000000)).toEqual([3812906.51, 0.381]);
+    expect(TotalTax(9345)).toEqual( {"efectiveTaxRate": 0, "taxesOwed": 0});
+    expect(TotalTax(30000)).toEqual({"efectiveTaxRate": 0.105, "taxesOwed": 3144.71});
+    expect(TotalTax(75000)).toEqual({"efectiveTaxRate": 0.187, "taxesOwed": 14014.49});
+    expect(TotalTax(150000)).toEqual({"efectiveTaxRate": 0.248, "taxesOwed": 37211.25});
+    expect(TotalTax(200000)).toEqual({"efectiveTaxRate": 0.264, "taxesOwed": 52731.23});
+    expect(TotalTax(500000)).toEqual({"efectiveTaxRate": 0.322, "taxesOwed": 161213.88});
+    expect(TotalTax(750000)).toEqual({"efectiveTaxRate": 0.342, "taxesOwed": 256281.51});
+    expect(TotalTax(1000000)).toEqual({"efectiveTaxRate": 0.352, "taxesOwed": 352406.51});
+    expect(TotalTax(1500000)).toEqual({"efectiveTaxRate": 0.363, "taxesOwed": 544656.51});
+    expect(TotalTax(10000000)).toEqual({"efectiveTaxRate": 0.381, "taxesOwed": 3812906.51});
 });
