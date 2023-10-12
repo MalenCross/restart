@@ -1,4 +1,23 @@
 
+type TotalTaxLoad = {
+
+    incomeTaxes: TaxInfo
+    totalFicaTaxes:TaxInfo
+    socialSecurityTaxes: TaxInfo
+    medicareTaxes: TaxInfo
+    }
+    
+    type TaxInfo = {
+    taxesOwed: number,
+    marginalTaxRate: number,
+    efectiveTaxRate : number   
+}
+
+type TaxBracketInfo = {
+    taxesOwed: number,
+    marginalTaxRate: number,  
+}
+
 // creating a type of TaxBracket
 
 type TaxBracket = {
@@ -6,8 +25,6 @@ type TaxBracket = {
     max: number
     rate: number
 };
-
-
 // creating taxrates that refrences an aray of TaxBrackets
 // this this is the taxbracket for single Filing 
 
@@ -21,11 +38,39 @@ const TaxRates: TaxBracket[] = [
     { min: 539901, max: 0, rate: .37 }
 ];
 
+enum FicaTaxRate {
+    TotalFicaTaxRate = .0765,
+    SocialSecurityTaxRate = .062,
+    MedicareTaxRate = .0145
+}
+
+
+export function StanderdDeduction(netW2 : number) : number{
+
+    let grossW2 = netW2 - 12950;
+
+    if (grossW2 < 0) {
+        grossW2 = 0
+    }
+    return grossW2
+}
+
+export function EfectiveTaxRate(taxes: number, netW2: number): number {
+
+
+    let efectiveTaxRate = taxes / netW2
+    efectiveTaxRate = parseFloat(efectiveTaxRate.toFixed(3));
+
+    if (taxes === 0) {
+        efectiveTaxRate = 0
+    }
+    return efectiveTaxRate
+}
 
 //  functon that Received gross W-2 information, and outputs
 //  the total tax due, marginal, tax rate, and effective tax rate
 
-export function W2Tax(grossWithoutD: number): number[] {
+export function W2Tax(grossWithoutD: number): TaxInfo   {
 
 
     // bracetTax refrences the BracketTax function that return an array of arrays that hold
@@ -36,12 +81,12 @@ export function W2Tax(grossWithoutD: number): number[] {
 
     // sunfOfAllTexes adds up the vales of taxesForThisBracket in each array in bracketTax
 
-    const sumOfAllTaxes = bracketTax.reduce((acc, curr) => acc + curr[0], 0);
+    const sumOfAllTaxes = bracketTax.reduce((acc, curr) => acc + curr.taxesOwed, 0);
 
 
     // marginalTaxRate gets the last marginalTaxRate value from the bracketTax array
 
-    let marginalTaxrateUnparsed = bracketTax.map(bracket => bracket[1])
+    let marginalTaxrateUnparsed = bracketTax.map(bracket => bracket.marginalTaxRate)
 
     const marginalTaxRate = marginalTaxrateUnparsed[marginalTaxrateUnparsed.length - 1]
 
@@ -49,40 +94,32 @@ export function W2Tax(grossWithoutD: number): number[] {
     // efectiveTaxRate gets what the sumOfAllTaxes is divided by 0 
     // if sumOfAllTaxes is 0 then efectiveTaxRate is 0
 
-    let efectiveTaxRate = 0
+    let efectiveTaxRate = EfectiveTaxRate(sumOfAllTaxes,grossWithoutD)
 
-    if (sumOfAllTaxes === 0) {
-    }
-    else {
-        efectiveTaxRate = sumOfAllTaxes / grossWithoutD
-        efectiveTaxRate = parseFloat(efectiveTaxRate.toFixed(2));
-    }
+    
 
 
     // return all three's results as an array
 
-    return [sumOfAllTaxes, marginalTaxRate, efectiveTaxRate]
+    return {taxesOwed:sumOfAllTaxes, marginalTaxRate: marginalTaxRate, efectiveTaxRate : efectiveTaxRate}
 }
 
 
 //  functon that Received gross W-2 information, and outputs an array of arrays 
 //  that hold the taxes for that brackt and that bracket's tax rate.
 
-export function BracketTax(grossWithoutD: number): number[][] {
+export function BracketTax(grossWithoutD: number): TaxBracketInfo [] {
 
 
     // subtracts the standerd deduction for single file and is set to 0 if - number
 
-    let grossw2 = grossWithoutD - 12950;
+    let grossw2 = StanderdDeduction(grossWithoutD);
 
-    if (grossw2 < 0) {
-        grossw2 = 0
-    }
 
 
     // creates varible for result of the loop to be pushed in to
 
-    let result: number[][] = [];
+    let result: TaxBracketInfo [] = [];
 
 
     // for loop that loops over each TaxBracket inside of TaxRates 
@@ -101,7 +138,7 @@ export function BracketTax(grossWithoutD: number): number[][] {
             let taxesForThisBracket = (grossw2 - bracket.min) * bracket.rate;
             taxesForThisBracket = parseFloat(taxesForThisBracket.toFixed(2));
 
-            result.push([taxesForThisBracket, bracket.rate]);
+            result.push({taxesOwed: taxesForThisBracket, marginalTaxRate: bracket.rate});
 
             break
 
@@ -114,7 +151,8 @@ export function BracketTax(grossWithoutD: number): number[][] {
             if (i === 6) {
                 let taxesForThisBracket = (grossw2 - bracket.min) * bracket.rate;
                 taxesForThisBracket = parseFloat(taxesForThisBracket.toFixed(2));
-                result.push([taxesForThisBracket, bracket.rate]);
+
+                result.push({taxesOwed: taxesForThisBracket, marginalTaxRate: bracket.rate});
             }
 
 
@@ -124,10 +162,80 @@ export function BracketTax(grossWithoutD: number): number[][] {
             else {
                 let taxesForThisBracket = (bracket.max - bracket.min) * bracket.rate;
                 taxesForThisBracket = parseFloat(taxesForThisBracket.toFixed(2));
-                result.push([taxesForThisBracket, bracket.rate]);
+
+                result.push({taxesOwed: taxesForThisBracket, marginalTaxRate: bracket.rate});
             }
         }
     }
 
     return result;
+}
+
+
+// fica tax
+
+
+
+
+
+export function TotalFicaTax(netW2: number): number[] {
+
+
+    let ficaTax = SocialSTax(netW2)[0] + MedicareTax(netW2)[0]
+    ficaTax = parseFloat(ficaTax.toFixed(2));
+
+    let efectiveTaxRate = EfectiveTaxRate(ficaTax, netW2)
+
+
+
+    return [ficaTax, FicaTaxRate.TotalFicaTaxRate, efectiveTaxRate]
+
+}
+
+export function SocialSTax(netW2: number): number[] {
+
+    let adjustedGrossIncome = StanderdDeduction(netW2)
+
+    if (adjustedGrossIncome < 0) {
+        adjustedGrossIncome = 0
+    }
+    if (adjustedGrossIncome > 160200) {
+        adjustedGrossIncome = 160200
+    }
+    let ssTax = adjustedGrossIncome * FicaTaxRate.SocialSecurityTaxRate
+    ssTax = parseFloat(ssTax.toFixed(2));
+
+
+    let effectiveTaxeRate = EfectiveTaxRate(ssTax, netW2)
+
+    return [ssTax, FicaTaxRate.SocialSecurityTaxRate, effectiveTaxeRate]
+
+
+}
+
+export function MedicareTax(netW2: number): number[] {
+    
+    let adjustedGrossIncome = StanderdDeduction(netW2)
+
+    if (adjustedGrossIncome < 0) {
+        adjustedGrossIncome = 0
+    }
+
+    let medTax = adjustedGrossIncome * FicaTaxRate.MedicareTaxRate
+    medTax = parseFloat(medTax.toFixed(2));
+
+    let effectiveTaxeRate = EfectiveTaxRate(medTax, netW2)
+
+    return [medTax, FicaTaxRate.MedicareTaxRate, effectiveTaxeRate]
+}
+
+export function TotalTax(netW2: number): number[] {
+    let incomTax = W2Tax(netW2)
+    let ficaTax = TotalFicaTax(netW2)
+    let totalTax = (incomTax.taxesOwed + ficaTax[0])
+    totalTax = parseFloat(totalTax.toFixed(2));
+    
+    let efectiveTaxRate = EfectiveTaxRate(totalTax, netW2)
+
+    return [totalTax, efectiveTaxRate]
 }

@@ -1,9 +1,10 @@
-import logo from './logo.svg';
+// import React from 'react';
+
 import { AddEmUp } from './Helpers';
 import { TaxPage } from './TaxPage';
 import './App.css';
 
-function App() {
+export default function App() {
   let numbers = [0, 1, 2, 3, 4];
   let names = ["react wiki", "sam", "jim"];
   let links = [
@@ -91,4 +92,4 @@ function App() {
   );
 }
 
-export default App;
+
