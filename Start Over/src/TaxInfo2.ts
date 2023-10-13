@@ -1,6 +1,6 @@
 
 type TotalTaxLoad = {
-
+    toatalTax : TotalTaxInfo
     incomeTaxes: TaxInfo
     totalFicaTaxes:TaxInfo
     socialSecurityTaxes: TaxInfo
@@ -223,9 +223,7 @@ export function MedicareTax(netW2: number): TaxInfo {
     
     let adjustedGrossIncome = StanderdDeduction(netW2)
 
-    if (adjustedGrossIncome < 0) {
-        adjustedGrossIncome = 0
-    }
+    
 
     let medTax = adjustedGrossIncome * FicaTaxRate.MedicareTaxRate
     medTax = parseFloat(medTax.toFixed(2));
@@ -244,4 +242,15 @@ export function TotalTax(netW2: number): TotalTaxInfo {
     let efectiveTaxRate = EfectiveTaxRate(totalTax, netW2)
 
     return { taxesOwed: totalTax, efectiveTaxRate: efectiveTaxRate}
+}
+
+export function AllTaxes(netW2: number): TotalTaxLoad{
+
+    let totalTax = TotalTax(netW2)
+    let incomeTaxes = W2Tax(netW2)
+    let ficaTax = TotalFicaTax(netW2)
+    let ssTax = SocialSTax(netW2)
+    let medTax = MedicareTax(netW2)
+
+    return { toatalTax: totalTax, incomeTaxes: incomeTaxes, totalFicaTaxes: ficaTax, socialSecurityTaxes: ssTax, medicareTaxes:medTax }
 }
