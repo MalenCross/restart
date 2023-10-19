@@ -5,6 +5,8 @@ import { TaxPage } from './TaxPage';
 import './App.css';
 
 export default function App() {
+
+  console.log("app rendering")
   let numbers = [0, 1, 2, 3, 4];
   let names = ["react wiki", "sam", "jim"];
   let links = [
@@ -22,14 +24,14 @@ export default function App() {
     }
   ]
   return (
-    <div>
-      <header>
+    <div >
+      <header className='App-header'>
 
         <div>
           <TaxPage />
         </div>
 
-        <p>
+        {/* <p>
           <ul>
             {links.map(link => (
               <li>
@@ -86,7 +88,7 @@ export default function App() {
           rel="noopener noreferrer"
         >
           HTML: HyperText Markup Language
-        </a>
+        </a> */}
       </header>
     </div>
   );

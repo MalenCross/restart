@@ -83,6 +83,7 @@ test(' w2tax get taxes owed, marginal tax rate, efective tax rate', () => {
     expect(TotalTax(1000000)).toEqual({ "efectiveTaxRate": 0.352, "taxesOwed": 352406.51 });
     expect(TotalTax(1500000)).toEqual({ "efectiveTaxRate": 0.363, "taxesOwed": 544656.51 });
     expect(TotalTax(10000000)).toEqual({ "efectiveTaxRate": 0.381, "taxesOwed": 3812906.51 });
+    expect(TotalTax(10000000).efectiveTaxRate).toBe(0.381);
 });
 
 

@@ -5,6 +5,7 @@ type TotalTaxLoad = {
     totalFicaTaxes:TaxInfo
     socialSecurityTaxes: TaxInfo
     medicareTaxes: TaxInfo
+    takeHomePay : number
     }
     
     type TaxInfo = {
@@ -251,6 +252,11 @@ export function AllTaxes(netW2: number): TotalTaxLoad{
     let ficaTax = TotalFicaTax(netW2)
     let ssTax = SocialSTax(netW2)
     let medTax = MedicareTax(netW2)
+    let takeHome = netW2 - totalTax.taxesOwed
 
-    return { toatalTax: totalTax, incomeTaxes: incomeTaxes, totalFicaTaxes: ficaTax, socialSecurityTaxes: ssTax, medicareTaxes:medTax }
+    return { toatalTax: totalTax, incomeTaxes: incomeTaxes, totalFicaTaxes: ficaTax, socialSecurityTaxes: ssTax, medicareTaxes:medTax, takeHomePay: takeHome }
 }
+
+
+// finalTaxEveryForReal(netw2, deduction, credits, dependants, martialStatus, 401kcontribution);
+// AllTaxes(netw2, deduction)
