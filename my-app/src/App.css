@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.redText {
+    color: red;
+}
+
+.textInput {
+    border: 1px solid blue;
+}
+
+.bold {
+    font-weight: 900;
+}
+
+.greenText {
+    color: green;
+}

@@ -1,0 +1,16 @@
+.TaxPage > input {
+    width: 150%;
+    height: 100%;
+    font-size: large;
+    text-align: center;
+}
+
+.TaxPage > td {
+    text-align: center;
+}
+
+/* atomic css     -     BEM                                    */
+/*   redText     -      .AppPage > input > first               */
+/*   centered     -     .LoginPage > input[type=password]      */
+/*   bold     -         .SearchPage > input > .invalid         */
+/*   extraWide     -                                           */

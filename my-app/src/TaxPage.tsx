@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AllTaxes } from './TaxInfo2';
-import './App.css';
+import './TaxPage.css'
 
 export function TaxPage() {
 
@@ -8,31 +8,38 @@ export function TaxPage() {
 
     const taxinfo = AllTaxes(grossIncome);
 
-    return (< div className='App-header' >
-        
-            <p >Tax Stuff</p>
+    return (< div className='TaxPage' >
 
-            <p >
-                Gross Income:
-                <div>
-                    <input type="number"
-                        value={grossIncome}
-                        onChange={(e) => setGrossIncome(parseInt(e.target.value))}
-                    />
-                </div>
-                <button onClick={() => setGrossIncome(grossIncome + 1000)}>
-                    Add One Thousand
-                </button>
-            </p>
-        
+        <div className='greenText bold'>
+            Tax
+            <div className='redText'>Stuff</div>
+            <div>
+                <input type="text"
+                    className='textInput' />
+            </div>
+        </div>
+
+        <p >
+            Gross Income:
+            <div>
+                <input type="number"
+                    value={grossIncome}
+                    onChange={(e) => setGrossIncome(parseInt(e.target.value))}
+                />
+            </div>
+            <button onClick={() => setGrossIncome(grossIncome + 1000)}>
+                Add One Thousand
+            </button>
+        </p>
+
         <p>
             <div>
-               <p> Take Home Pay </p>
+                <p> Take Home Pay </p>
                 {taxinfo.takeHomePay}
-                 </div> 
+            </div>
         </p>
         <p>
-            <table>
+            <table >
                 <tr>
                     <th>Type</th>
                     <th>Taxes Owed   </th>
@@ -118,7 +125,7 @@ export function TaxPage() {
                     </td>
 
                 </tr>
-            
+
 
 
             </table>
