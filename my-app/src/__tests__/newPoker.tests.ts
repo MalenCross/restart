@@ -1,4 +1,4 @@
-import { GetFace,GetSuit,ParseError, Suit } from "../newPoker"
+import { Card, GetCard, GetFace,GetHand,GetSuit,ParseError, Suit } from "../newPoker"
 
 test('Get face value a playing card', () => {
     expect(GetFace('TH')).toBe(10)
@@ -22,4 +22,59 @@ test('get the suit from a playing card', () => {
     expect(GetSuit('2D')).toBe(Suit.Diamonds)
     expect(GetSuit('TC')).toBe(Suit.Clubs)
     expect(GetSuit('KP')).toBe(ParseError.InvalidSuit)
+})
+
+test('get the card from a poker card string', () => {
+
+    let cardA: Card | string = GetCard('2H')
+    if (typeof cardA === 'object' && cardA !== null) {
+        expect(cardA.face).toBe(2)
+        expect(cardA.suit).toBe(Suit.Hearts)
+    }
+    let cardB: Card | string = GetCard('7C')
+    if (typeof cardB === 'object' && cardB !== null) {
+        expect(cardB.face).toBe(7)
+        expect(cardB.suit).toBe(Suit.Clubs)
+    }
+    let card1: Card | string = GetCard('AH')
+    if (typeof card1 === 'object' && card1 !== null) {
+        expect(card1.face).toBe(14)
+        expect(card1.suit).toBe(Suit.Hearts)
+    }
+    let card2: Card | string = GetCard('RD')
+    expect(card2).toBe(ParseError.InvalidFace)
+
+    let card3: Card | string = GetCard('TW')
+    expect(card3).toBe(ParseError.InvalidSuit)
+
+    let card4: Card | string = GetCard('WL')
+    expect(card4).toBe(ParseError.InvalidCard)
+
+})
+
+test('get the card from a poker card string', () => {
+    expect(GetHand('2H TS 9C AS 7D')).toEqual([{
+        face: 2,
+        suit: 'Hearts'
+    }, {
+        face: 10,
+        suit: 'Spades'
+    }, {
+        face: 9,
+        suit: 'Clubs'
+    }, {
+        face: 14,
+        suit: 'Spades'
+    }, {
+        face: 7,
+        suit: 'Diamonds'
+    }
+    ])
+
+    expect(GetHand('XH TS 9C AS 7D')).toBe("Not a Valid Face in card XH")
+
+    expect(GetHand('2H TS 9C AP 7D')).toBe("Not a Valid Suit in card AP")
+
+    expect(GetHand('2H TS 9C LP 7D')).toBe("Not a Valid Face and Suit in card LP")
+    expect(GetHand('2 TS')).toBe("Not a Valid Suit in card 2")
 })

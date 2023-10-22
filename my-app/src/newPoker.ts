@@ -1,6 +1,6 @@
 
 
-export enum Suit{
+export enum Suit {
     Spades = 'Spades',
     Hearts = 'Hearts',
     Clubs = 'Clubs',
@@ -32,21 +32,55 @@ const faceLookup: { [key: string]: number } = {
 }
 
 
-const suitLookup :{[key: string] : Suit} = {
-    'S' : Suit.Spades,
-    'H' : Suit.Hearts,
-    'C' : Suit.Clubs,
-    'D' : Suit.Diamonds
+const suitLookup: { [key: string]: Suit } = {
+    'S': Suit.Spades,
+    'H': Suit.Hearts,
+    'C': Suit.Clubs,
+    'D': Suit.Diamonds
 }
 
+export type Card = {
+    face: number,
+    suit: Suit
+}
+type Hand = Card[]
 
-export function GetFace(card: string): number | ParseError {
+
+export function GetFace(card: string): number | ParseError.InvalidFace {
 
     return faceLookup[card[0]] !== undefined ? faceLookup[card[0]] : ParseError.InvalidFace
 }
 
 
-export function GetSuit( card: string): Suit | ParseError {
+export function GetSuit(card: string): Suit | ParseError.InvalidSuit {
 
     return suitLookup[card[1]] !== undefined ? suitLookup[card[1]] : ParseError.InvalidSuit
+}
+
+
+export function GetCard(card: string): Card | ParseError {
+
+    let faceValue = GetFace(card)
+    let suitValue = GetSuit(card)
+
+    return faceValue === ParseError.InvalidFace && suitValue === ParseError.InvalidSuit
+        ? ParseError.InvalidCard :
+        faceValue === ParseError.InvalidFace ? ParseError.InvalidFace :
+            suitValue === ParseError.InvalidSuit ? ParseError.InvalidSuit :
+                { face: faceValue as number, suit: suitValue as Suit }
+}
+
+
+export function GetHand(hand: string): Hand | ParseError {
+    let handSplit = hand.split(' ')
+    let handArray: Hand = []
+    for (let card of handSplit) {
+        let parsedCard = GetCard(card);
+        if (Object.values(ParseError).includes(parsedCard as any)) {
+            return `${parsedCard} in card ${card}` as ParseError;
+        } else {
+            handArray.push(parsedCard as Card);
+        }
+    }
+    return handArray;
 }
