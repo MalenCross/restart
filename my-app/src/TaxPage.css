@@ -1,13 +1,18 @@
-.TaxPage > input {
-    width: 150%;
+.TaxPages > input {
+    width: 200%;
     height: 100%;
-    font-size: large;
+    font-size: x-large;
     text-align: center;
 }
 
-.TaxPage > td {
+.TaxPage  {
     text-align: center;
 }
+
+table, th, td {
+    border: 1px solid;
+    padding: '16px 32px'
+  }
 
 /* atomic css     -     BEM                                    */
 /*   redText     -      .AppPage > input > first               */

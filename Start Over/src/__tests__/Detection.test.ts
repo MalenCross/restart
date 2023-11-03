@@ -74,7 +74,7 @@ const ThreeOfAKind_Hand = [
 test('detect hand', () => {
     expect(DetectHand(GetHand('2H 8S 9C AS 7D') as Hand)).toBe(HandType.HighCard);
     expect(DetectHand(GetHand('8H 8S 9C AS 7D') as Hand)).toBe(HandType.Pair);
-    expect(DetectHand(GetHand('8H 8S 8C AS 7D') as Hand)).toBe(HandType.ThreeOfAKind);
+    expect(DetectHand(GetHand('8H 8S 8C AS 2D') as Hand)).toBe(HandType.ThreeOfAKind);
     expect(DetectHand(ThreeOfAKind_Hand)).toBe(HandType.ThreeOfAKind);
     // expect(DetectHand(GetHand('8H 8S AC AS 7D') as Hand)).toBe(HandType.TwoPair);
     //...

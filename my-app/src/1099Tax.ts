@@ -10,6 +10,7 @@ enum filingStatus {
 
 
 
+
 export function Deductions(netW2: number, filingStatus: filingStatus, retirement: number): number {
     return 0;
 

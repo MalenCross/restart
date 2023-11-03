@@ -13,8 +13,9 @@ export enum ParseError {
     InvalidCard = 'Not a Valid Face and Suit'
 }
 
+type Face = 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14;
 
-const faceLookup: { [key: string]: number } = {
+const faceLookup: { [key: string]: Face } = {
     '2': 2,
     '3': 3,
     '4': 4,
@@ -39,53 +40,46 @@ const suitLookup: { [key: string]: Suit } = {
 }
 
 export type Card = {
-    face: number,
+    face: Face,
     suit: Suit
 }
 export type Hand = Card[]
 
 
-export function GetFace(card: string): number | ParseError.InvalidFace {
-
-    return faceLookup[card[0]] !== undefined ? faceLookup[card[0]] : ParseError.InvalidFace
-}
-
-
-export function GetSuit(card: string): Suit | ParseError.InvalidSuit {
-
-    return suitLookup[card[1]] !== undefined ? suitLookup[card[1]] : ParseError.InvalidSuit
-}
-
-
-export function GetCard(card: string): Card | ParseError {
-
-    let faceValue = GetFace(card)
-    let suitValue = GetSuit(card)
-
-    return faceValue === ParseError.InvalidFace && suitValue === ParseError.InvalidSuit
-        ? ParseError.InvalidCard :
-        faceValue === ParseError.InvalidFace ? ParseError.InvalidFace :
-            suitValue === ParseError.InvalidSuit ? ParseError.InvalidSuit :
-                { face: faceValue as number, suit: suitValue as Suit }
-}
-
-
-export function GetHand(hand: string): Hand | ParseError {
-    let handSplit = hand.split(' ')
-    let handArray: Hand = []
-    for (let card of handSplit) {
-        let parsedCard = GetCard(card);
-        if (Object.values(ParseError).includes(parsedCard as any)) {
-            return `${parsedCard} in card ${card}` as ParseError;
-        } else {
-            handArray.push(parsedCard as Card);
-        }
-
-
+export function GetFace(card: string): Face {
+    if (faceLookup[card[0]] !== undefined) {
+        return faceLookup[card[0]]
     }
-    return handArray;
-
+    throw new Error('Invalid face');
 }
+
+
+export function GetSuit(card: string): Suit {
+    if (suitLookup[card[1]] !== undefined) {
+        return suitLookup[card[1]]
+    }
+    throw new Error('Invalid suit')
+}
+
+
+// exceptions    throw new ParseError('invalid suit');
+//    pros       nearly free in terms of code, instant stop on error
+//    cons       possibly really complex errors, and less detailed validation responses (without a lot of extra work)
+// errors        return ParseError.InvalidSuit
+//    pros       most detailed validation responses, stop when you want on error
+//    cons       way more code (in JS, TS, C#, Java, Python, Ruby)
+export function GetCard(card: string): Card {
+    return {
+        face: GetFace(card),
+        suit: GetSuit(card)
+    }
+}
+
+
+export function GetHand(hand: string): Hand {
+    return hand.split(' ').map(GetCard)
+}
+
 
 // detection logic
 
@@ -101,16 +95,19 @@ export enum HandType {
     StraightFlush = 9,
 }
 
+
 export function CountFace(hand: Hand): { [key: string]: number } {
-    let faceCounts: { [key: string]: number } = {}
+    let faceCounts: { [key: number]: number } = {}
     for (let card of hand) {
-        faceCounts[card.face] === undefined
-            ? faceCounts[card.face] = 1
-            : (faceCounts[card.face] += 1)
+        let face = card['face'];
+        if (faceCounts[face] === undefined) {
+            faceCounts[face] = 1
+        } else {
+            faceCounts[face] += 1
+        }
     }
     return faceCounts
 }
-
 
 export function DetectOfAKind(searchCount: number, hand: Hand): boolean {
     let counts = Object.values(CountFace(hand))
@@ -126,7 +123,6 @@ export function DetectPair(hand: Hand): boolean {
 }
 
 export function DetectTwoPair(hand: Hand): boolean {
-
     let countedPairs = Object.values(CountFace(hand))
     let pairsWithCount2 = countedPairs.filter(i => i === 2)
     return pairsWithCount2.length === 2
@@ -137,14 +133,14 @@ export function DetectThreeOfAKind(hand: Hand): boolean {
 }
 
 export function DetectStraight(hand: Hand): boolean {
-    let strairSpecial = [2, 3, 4, 5, 14]
     let sortedFaceArray = hand.map(card => card.face).sort((a, b) => a - b)
     let arrayWithoutDup = Array.from(new Set(sortedFaceArray));
 
     if (arrayWithoutDup.length < 5) {
         return false
     }
-    if (strairSpecial.every((value, index) => value === arrayWithoutDup[index])) {
+    let acesLowStraight = JSON.stringify([2, 3, 4, 5, 14]) === JSON.stringify(arrayWithoutDup);
+    if (acesLowStraight) {
         return true
     }
     for (let i = 0; i < arrayWithoutDup.length; i++) {
@@ -183,25 +179,23 @@ export function DetectStraightFlush(hand: Hand): boolean {
 }
 
 export function DetectHand(hand: Hand): HandType {
+    let checkAndType = [
+        [() => DetectPair(hand), HandType.Pair],
+        [() => DetectThreeOfAKind(hand), HandType.ThreeOfAKind],
+        [() => DetectTwoPair(hand), HandType.TwoPair],
+        [() => DetectStraight(hand), HandType.Straight],
+        [() => DetectFlush(hand), HandType.Flush],
+        [() => DetectFullHouse(hand), HandType.FullHouse],
+        [() => DetectFourOfAKind(hand), HandType.FourOfAKind],
+        [() => DetectStraightFlush(hand), HandType.StraightFlush]
+    ] as [() => boolean, HandType][];
 
-    return DetectPair(hand) ? HandType.Pair
-
-        : DetectThreeOfAKind(hand) ? HandType.ThreeOfAKind
-
-            : DetectTwoPair(hand) ? HandType.TwoPair
-
-                : DetectStraight(hand) ? HandType.Straight
-
-                    : DetectFlush(hand) ? HandType.Flush
-
-                        : DetectFullHouse(hand) ? HandType.FullHouse
-
-                            : DetectFourOfAKind(hand) ? HandType.FourOfAKind
-
-                                : DetectStraightFlush(hand) ? HandType.StraightFlush
-
-                                    : HandType.HighCard;
-
+    for (let [checkFn, returnType] of checkAndType) {
+        if (checkFn()) {
+            return returnType
+        }
+    }
+    return HandType.HighCard;
 }
 
 export function JudgeWinner(player1: HandType, player2: HandType): number {
@@ -222,3 +216,4 @@ export function PlayGame(handstrings: string): string {
     let winnerPrint = PrintWinner(winner)
     return winnerPrint
 }
+

@@ -28,6 +28,7 @@ export function PrintWinner(winner: number): string {
 export function PlayGame(handstrings: string): string {
 let splithands = handstrings.split(' - ');
 
+
 let winner = JudgeWinner(DetectHand(GetHand(splithands[0]) as Hand) ,DetectHand(GetHand(splithands[1]) as Hand))
 
 let winnerPrint =PrintWinner(winner)

@@ -8,15 +8,12 @@ export function TaxPage() {
 
     const taxinfo = AllTaxes(grossIncome);
 
-    return (< div className='TaxPage' >
+    return (< div className = 'TaxPage' >
 
         <div className='greenText bold'>
             Tax
             <div className='redText'>Stuff</div>
-            <div>
-                <input type="text"
-                    className='textInput' />
-            </div>
+           
         </div>
 
         <p >
@@ -34,17 +31,17 @@ export function TaxPage() {
 
         <p>
             <div>
-                <p> Take Home Pay </p>
+                <p>  Take Home Pay  </p>
                 {taxinfo.takeHomePay}
             </div>
         </p>
         <p>
             <table >
                 <tr>
-                    <th>Type</th>
-                    <th>Taxes Owed   </th>
-                    <th>Marginal Tax Rate   </th>
-                    <th>Effective Tax Rate   </th>
+                    <th> ' Type ' </th>
+                    <th> ' Taxes Owed ' </th>
+                    <th> ' Marginal Tax Rate ' </th>
+                    <th> ' Effective Tax Rate '  </th>
 
                 </tr>
                 <tr>
