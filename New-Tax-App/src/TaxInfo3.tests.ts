@@ -1,4 +1,4 @@
-import { MarriedTaxBrackets, SingleTaxBrackets, TotalFicaTax, calculateIncomeTax, calculateTaxableIncome, calculateTotalTax} from "../TaxInfo3";
+import { MarriedTaxBrackets, SingleTaxBrackets, TotalFicaTax, calculateIncomeTax, calculateTaxableIncome, calculateTotalTax} from "./TaxInfo3";
 
 
 test('get the taxable income', () => {

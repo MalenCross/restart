@@ -1,4 +1,4 @@
-type TaxOutput = {
+export type TaxOutput = {
     taxableIncome : number,
     incomeTax : number,
     ficaTax : number,
