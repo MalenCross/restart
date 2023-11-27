@@ -38,7 +38,7 @@
   /* Space inside the card */
   margin-bottom: 20px;
   /* Space below the card */
-  margin-top: 50px;
+  margin-top: 11px;
 }
 
 h1 {
@@ -48,5 +48,18 @@ h1 {
 
 input[type="number"] {
   background-color: #fff; /* Set to white or any light color */
-  color: #333;           /* Set to dark color for text */
+  color: #000000;           /* Set to dark color for text */
+  border-radius: var(--bs-border-radius)
+}
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-item {
+  flex: 1;
+}
+
+.form-item {
+  padding-right: 20px;
 }

@@ -76,14 +76,14 @@ test('get the hand from a poker card string', () => {
     ])
 })
 
-test('count how manny times a face appers', () => {
+test('count how many times a face appears', () => {
     expect(CountFace(GetHand('2H 3S 4C 5S 6D') as Hand)).toEqual({ "2": 1, "3": 1, "4": 1, "5": 1, "6": 1 });
     expect(CountFace(GetHand('TH JC KS QH AS') as Hand)).toEqual({ "10": 1, "11": 1, "12": 1, "13": 1, "14": 1 });
     expect(CountFace(GetHand('AH 2H 3D 4H 5H') as Hand)).toEqual({ "14": 1, "2": 1, "3": 1, "4": 1, "5": 1 });
     expect(CountFace(GetHand('6H 6S 9H 9S 9C') as Hand)).toEqual({ "6": 2, "9": 3 });
 })
 
-test('function to setect how many instances of a face card exist', () => {
+test('function to select how many instances of a face card exist', () => {
     expect(DetectOfAKind(2, (GetHand('2H 8S 9C AS 7D') as Hand))).toBe(false);
     expect(DetectOfAKind(2, (GetHand('2H 8S 9C 2S 7D') as Hand))).toBe(true);
     expect(DetectOfAKind(3, (GetHand('5H 8S 9C 5S 5D') as Hand))).toBe(true);

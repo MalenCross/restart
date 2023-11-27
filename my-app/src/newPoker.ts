@@ -39,7 +39,7 @@ const suitLookup: { [key: string]: Suit } = {
     'D': Suit.Diamonds
 }
 
-export type Card = {
+export interface Card {
     face: Face,
     suit: Suit
 }

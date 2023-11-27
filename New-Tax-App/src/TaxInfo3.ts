@@ -63,9 +63,10 @@ let ssTax = taxableIncome * .062
 return parseFloat((ssTax + medicareTaxes).toFixed(2)); 
    
 }
-export function calculateTotalTax(grossIncome: number, filingStatus: 'single' | 'married', credits: number): TaxOutput {
+export function calculateTotalTax(grossIncome: number, filingStatus: 'single' | 'married', credits: number, retirementContribution : number): TaxOutput {
     const deductions = StandardDeductions[filingStatus];
-    const taxableIncome = calculateTaxableIncome(grossIncome, deductions);
+    const taxableIncomeAfterRetirment= grossIncome -retirementContribution
+    const taxableIncome = calculateTaxableIncome(taxableIncomeAfterRetirment, deductions);
     const taxBrackets = filingStatus === 'single' ? SingleTaxBrackets : MarriedTaxBrackets;
     const incomeTax = calculateIncomeTax(taxableIncome, taxBrackets);
     const ficaTax = TotalFicaTax(taxableIncome)
@@ -78,7 +79,7 @@ export function calculateTotalTax(grossIncome: number, filingStatus: 'single' | 
         ficaTax : ficaTax,
         totalTax: totalTax,
         taxAfterCredits: taxAfterCredits,
-        takeHomePay: takeHomePay
+        takeHomePay: takeHomePay - retirementContribution
     }
 }
 

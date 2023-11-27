@@ -89,7 +89,7 @@ export function GetSuit(getSuitInput: string): Suit | ParseError.InvalidSuit {
 }
 
 
-// Cet the card as an object from a poker card string or return an eeror string
+// Cet the card as an object from a poker card string or return an error string
 
 export function GetCard(getCardInput: string): Card | ParseError {
     let parsedFaceOutput = GetFace(getCardInput)
