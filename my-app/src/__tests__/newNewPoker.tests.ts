@@ -134,52 +134,55 @@ it.each([
 });
 
 it.each([
-    ["2H 3H 5H 4S 6S", true],
-    ["5S 2C AC 4S 3S", true],
-    ["TH 3C 9D 9S 3C", false],
-  ])("DetectFullHouse(%p) expecting (%p)", (input: string, result: boolean) => {
-    expect(DetectFullHouse(GetHand(input) as Hand)).toEqual(result);
-  });
+  ["2H 3H 5H 4S 6S", true],
+  ["5S 2C AC 4S 3S", true],
+  ["TH 3C 9D 9S 3C", false],
+])("DetectFullHouse(%p) expecting (%p)", (input: string, result: boolean) => {
+  expect(DetectFullHouse(GetHand(input) as Hand)).toEqual(result);
+});
 
-  it.each([
-    ["2H 2H 2H 2S 6S", true],
-    ["AS AC AC 4S AS", true],
-    ["TH 3C 9D 9S 3C", false],
-  ])("DetectFourOfAKind(%p) expecting (%p)", (input: string, result: boolean) => {
-    expect(DetectFourOfAKind(GetHand(input) as Hand)).toEqual(result);
-  });
+it.each([
+  ["2H 2H 2H 2S 6S", true],
+  ["AS AC AC 4S AS", true],
+  ["TH 3C 9D 9S 3C", false],
+])("DetectFourOfAKind(%p) expecting (%p)", (input: string, result: boolean) => {
+  expect(DetectFourOfAKind(GetHand(input) as Hand)).toEqual(result);
+});
 
-  it.each([
-    ["2H 3H 4H 5H 6H", true],
-    ["AS 3S 2S 5S 4S", true],
-    ["TH 3C 9D 9S 3C", false],
-  ])("DetectStraightFlush(%p) expecting (%p)", (input: string, result: boolean) => {
+it.each([
+  ["2H 3H 4H 5H 6H", true],
+  ["AS 3S 2S 5S 4S", true],
+  ["TH 3C 9D 9S 3C", false],
+])(
+  "DetectStraightFlush(%p) expecting (%p)",
+  (input: string, result: boolean) => {
     expect(DetectStraightFlush(GetHand(input) as Hand)).toEqual(result);
-  });
+  }
+);
 
-  it.each([
-    ["2H 3H 4H 5H 6H", 9],
-    ["AS 3S 2S 5S 4S", 9],
-    ["TH 3C 9D 9S 3C", HandType.TwoPair],
-  ])("DetectHand(%p) expecting (%p)", (input: string, result: HandType) => {
-    expect(DetectHand(GetHand(input) as Hand)).toEqual(result);
-  });
+it.each([
+  ["2H 3H 4H 5H 6H", 9],
+  ["AS 3S 2S 5S 4S", 9],
+  ["TH 3C 9D 9S 3C", HandType.TwoPair],
+])("DetectHand(%p) expecting (%p)", (input: string, result: HandType) => {
+  expect(DetectHand(GetHand(input) as Hand)).toEqual(result);
+});
 
-  it.each([
-    [HandType.FourOfAKind,HandType.Pair, 1],
-    [HandType.HighCard, HandType.HighCard, 0],
-    [HandType.TwoPair, HandType.StraightFlush, 2]
-    
-  ])("JudgeWinner((%p),(%p)) expecting (%p)", (input1: HandType, input2: HandType, result: number) => {
-    expect(JudgeWinner(input1,input2)).toEqual(result);
-  });
+it.each([
+  [HandType.FourOfAKind, HandType.Pair, 1],
+  [HandType.HighCard, HandType.HighCard, 0],
+  [HandType.TwoPair, HandType.StraightFlush, 2],
+])(
+  "JudgeWinner((%p),(%p)) expecting (%p)",
+  (input1: HandType, input2: HandType, result: number) => {
+    expect(JudgeWinner(input1, input2)).toEqual(result);
+  }
+);
 
-  
-  it.each([
-    ["2H 3H 4H 5H 6H - TH 3C 9D 9S 3C", 'Player 1 Wins'],
-    ["TH 3C 9D 9S 3C - 2H 3H 5H 4S 6S", 'Player 2 Wins'],
-    ['AS 3H 8C KD TH - KD 4C 8D 2S JH', 'Tie']
-   
-  ])("DetectFourOfAKind(%p) expecting (%p)", (input: string, result: string) => {
-    expect(PlayGame(input)).toEqual(result);
-  });
+it.each([
+  ["2H 3H 4H 5H 6H - TH 3C 9D 9S 3C", "Player 1 Wins"],
+  ["TH 3C 9D 9S 3C - 2H 3H 5H 4S 6S", "Player 2 Wins"],
+  ["AS 3H 8C KD TH - KD 4C 8D 2S JH", "Tie"],
+])("DetectFourOfAKind(%p) expecting (%p)", (input: string, result: string) => {
+  expect(PlayGame(input)).toEqual(result);
+});

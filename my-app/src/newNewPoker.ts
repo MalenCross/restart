@@ -85,7 +85,7 @@ export function DetectPair(hand: Hand): boolean {
 export function DetectTwoPair(hand: Hand): boolean {
   let dictionary: Dictionary = {};
 
-  Object.values(DictionaryOfAKind(hand)).forEach((value) => {
+  (Object.values(DictionaryOfAKind(hand))).forEach((value) => {
     if (dictionary[value] === undefined) {
       dictionary[value] = 1;
     } else {
