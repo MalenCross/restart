@@ -99,7 +99,7 @@ it.each([
   expect(DetectTwoOfAKind(GetHand(input))).toEqual(result);
 });
 
-it.each([["2H 2S QC AD AH", [true, 2, 14]]])("", (input: string, result) => {
+it.each([["2H 2S QC AD AH", [true, 14, 2]]])("", (input: string, result) => {
   expect(DetectTwoPair(GetHand(input))).toEqual(result);
 });
 
@@ -182,6 +182,7 @@ it.each([
   ["5H 5S 5S 5S 6S - AH 2H 3H 4H 5H", "player 2 Wins"],
   ["2S 3S 4S 5S 6S - AH 2H 3H 4H 5H", "player 1 Wins"],
   ["AS 2S 3S 4S 5S - AH 2H 3H 4H 5H", "tie"],
+  ["KS 9S 9S AS AH - 2H AH AH TH TS", "player 2 Wins"],
 ])("Detect Win input (%p) to equal (%p)", (input: string, result) => {
   expect(DetectWin(input)).toEqual(result);
 });
