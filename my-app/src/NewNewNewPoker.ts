@@ -59,7 +59,7 @@ export function DetectHighCard(hand: Hand): number[] {
   return hand.map((card) => card.face).sort((a, b) => b - a);
 }
 
-export function DetectOfAKind(hand: Hand, ofAKind: number): any {
+export function DetectOfAKind(hand: Hand, ofAKind: number): [string, number][] {
   let dictionary: { [key: string]: number } = {};
   hand.forEach((card) => {
     if (dictionary[card.face] === undefined) {
@@ -68,7 +68,8 @@ export function DetectOfAKind(hand: Hand, ofAKind: number): any {
       dictionary[card.face]++;
     }
   });
-  return Object.entries(dictionary).filter((i) => i[1] === ofAKind);
+  return  Object.entries(dictionary).filter((i) => i[1] === ofAKind).sort( (a,b) => +b[0]-+a[0]);
+  
 }
 
 export function DetectTwoOfAKind(hand: Hand): any {
@@ -80,10 +81,12 @@ export function DetectTwoOfAKind(hand: Hand): any {
 }
 
 export function DetectTwoPair(hand: Hand): any {
-  let dictionary = DetectOfAKind(hand, 2).sort((a: number[],b: number[]) => {
-    return b[0]-a[0]
-  })
-  console.log(dictionary)
+  let dictionary = DetectOfAKind(hand, 2).sort(
+    (a: [string, number], b: [string, number]) => {
+      return +b[0] - +a[0];
+    }
+  );
+  //   console.log(dictionary)
   let IsTwoPair = dictionary.length === 2;
   if (IsTwoPair) return [true, +dictionary[0][0], +dictionary[1][0]];
   else return [IsTwoPair];
@@ -183,10 +186,10 @@ export function DetectWin(hands: string): any {
   const player2Hand = DetectHand(GetHand(hand[1]));
   const player1HandSorted = DetectHighCard(GetHand(hand[0]));
   const player2HandSorted = DetectHighCard(GetHand(hand[1]));
-//   console.log([player1Hand[0], player2Hand[0]]);
+  //   console.log([player1Hand[0], player2Hand[0]]);
   if (player1Hand[0] > player2Hand[0]) return "player 1 Wins";
   if (player1Hand[0] < player2Hand[0]) return "player 2 Wins";
-//   console.log([player1Hand[1], player2Hand[1]]);
+  //   console.log([player1Hand[1], player2Hand[1]]);
   if (player1Hand[1] > player2Hand[1]) return "player 1 Wins";
   if (player1Hand[1] < player2Hand[1]) return "player 2 Wins";
 
@@ -196,14 +199,16 @@ export function DetectWin(hands: string): any {
   let notTie = [0, 1, 2, 3, 4].find(
     (i) => player1HandSorted[i] !== player2HandSorted[i]
   );
-//   console.log(notTie);
-//   console.log([
-//     player1HandSorted[notTie as number],
-//     player2HandSorted[notTie as number],
-//   ]);
+  //   console.log(notTie);
+  //   console.log([
+  //     player1HandSorted[notTie as number],
+  //     player2HandSorted[notTie as number],
+  //   ]);
   if (player1HandSorted[notTie as number] > player2HandSorted[notTie as number])
     return "player 1 Wins";
   if (player1HandSorted[notTie as number] < player2HandSorted[notTie as number])
     return "player 2 Wins";
   else return "tie";
 }
+
+console.log(Math.PI)

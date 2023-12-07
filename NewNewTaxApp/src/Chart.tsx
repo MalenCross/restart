@@ -11,7 +11,9 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { generateGrossIncomes } from "./ChartHelpers";
-import "./App.css";
+import { calculateTotalTax } from './TaxInfo';
+
+import { FilingStatus } from "./App";
 
 ChartJS.register(
   CategoryScale,
@@ -36,7 +38,11 @@ export const options = {
   },
 };
 
-export function Chart() {
+export interface ChartProps {
+  filingStatus: FilingStatus
+}
+
+export function Chart({ filingStatus }: ChartProps) {
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(50000);
   const [data, setData] = useState<any>({
@@ -53,19 +59,19 @@ export function Chart() {
       datasets: [
         {
           label: "Total Tax",
-          data: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+          data: grossIncomes.map((grossIncome) => calculateTotalTax(grossIncome, filingStatus, 0, 0).totalTax),
           borderColor: "rgb(255, 99, 132)",
           backgroundColor: "rgba(255, 99, 132, 0.5)",
         },
         {
           label: "Dataset 2",
-          data: [5, 7, 9, 10, 13, 14, 16, 17, 19, 24],
+          data:  grossIncomes.map((grossIncome) => calculateTotalTax(grossIncome, filingStatus, 0, 0).takeHomePay),
           borderColor: "rgb(132, 99, 255,)",
           backgroundColor: "rgba(132, 99, 255, 0.5)",
         },
       ],
     });
-  }, [min, max]);
+  }, [filingStatus ,min, max]);
 
   console.log("rendering charts");
   return (
