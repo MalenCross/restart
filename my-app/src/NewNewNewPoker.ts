@@ -211,4 +211,8 @@ export function DetectWin(hands: string): any {
   else return "tie";
 }
 
+interface Output {
+ rank : HandType,
+ tieBreaker: number[]
+}
 console.log(Math.PI)
